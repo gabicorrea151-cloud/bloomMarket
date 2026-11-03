@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Área do fornecedor do BloomMarket: cadastre sua loja, publique suas flores e acompanhe seus pedidos.">
+
+
+    <title>BloomMarket | Área do Fornecedor</title>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fornecedor.css">
+    <link rel="stylesheet" href="rodape.css">
+
+
+    <!-- O script.js vem antes: ele cria o objeto Bloom usado pelo fornecedor.js -->
+    <script src="script.js" defer></script>
+    <script src="fornecedor.js" defer></script>
+</head>
+
+
+<body>
+
+
+    <!-- CABEÇALHO DO FORNECEDOR (diferente do cabeçalho do cliente) -->
+    <header class="header header-fornecedor">
+        <a href="painel-fornecedor.html" class="logo">
+            <img src="imagens/logo-bloommarket.png" alt="BloomMarket">
+            <span class="tag-fornecedor">Fornecedor</span>
+        </a>
+
+
+        <!-- Só aparece depois que o fornecedor entra -->
+        <nav class="menu" id="menu-fornecedor" aria-label="Menu do fornecedor" hidden>
+            <button type="button" class="link-menu ativo" data-menu-painel="produtos" aria-current="page">
+                Meus produtos
+            </button>
+            <button type="button" class="link-menu" data-menu-painel="novo">
+                Novo produto
+            </button>
+            <button type="button" class="link-menu" data-menu-painel="pedidos">
+                Pedidos <span class="badge" id="badge-pedidos" hidden>0</span>
+            </button>
+            <button type="button" class="link-menu" data-menu-painel="loja">
+                Minha loja
+            </button>
+        </nav>
+
+
+        <div class="login">
+            <a href="index.html" class="entrar-btn" id="btn-voltar-loja">Voltar à loja</a>
+            <button type="button" id="btn-sair-fornecedor" class="entrar-btn" hidden>Sair</button>
+        </div>
+    </header>
+
+
+    <main class="pagina-fornecedor">
+
+
+        <!-- ==========================================
+             TELA DE ACESSO (aparece quando ninguém entrou)
+             ========================================== -->
+        <section id="tela-acesso" class="acesso-fornecedor">
+
+
+            <div class="acesso-intro">
+                <span class="selo">Área do fornecedor</span>
+                <h1>Venda suas flores para quem mora perto de você</h1>
+                <p>
+                    Cadastre sua loja, publique seus produtos e acompanhe
+                    cada pedido até a entrega.
+                </p>
+
+
+                <ul class="lista-vantagens">
+                    <li>Seus produtos aparecem para clientes da sua região</li>
+                    <li>Você controla preço, estoque e fotos</li>
+                    <li>Pedidos organizados por status</li>
+                </ul>
+            </div>
+
+
+            <div class="acesso-caixa">
+                <div class="abas" id="abas-acesso" role="tablist" aria-label="Acesso do fornecedor">
+                    <button type="button" class="aba ativa" role="tab" aria-selected="true" data-aba-acesso="entrar">
+                        Entrar
+                    </button>
+                    <button type="button" class="aba" role="tab" aria-selected="false" data-aba-acesso="cadastrar">
+                        Cadastrar minha loja
+                    </button>
+                </div>
+
+
+                <!-- LOGIN DO FORNECEDOR -->
+                <form id="form-login-fornecedor" class="form-forn" novalidate>
+                    <div class="campo">
+                        <label for="lf-email">E-mail</label>
+                        <input type="email" id="lf-email" autocomplete="email" required>
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="lf-senha">Senha</label>
+                        <input type="password" id="lf-senha" autocomplete="current-password" required>
+                    </div>
+
+
+                    <p class="erro-form" id="erro-login-forn" role="alert" hidden></p>
+
+
+                    <button type="submit" class="submit-btn">Entrar no painel</button>
+
+
+                    <button type="button" class="link-simples" id="link-esqueci-senha">
+                        Esqueci minha senha
+                    </button>
+                </form>
+
+
+                <!-- CADASTRO DO FORNECEDOR -->
+                <form id="form-cadastro-fornecedor" class="form-forn" novalidate hidden>
+                    <div class="campo">
+                        <label for="cf-loja">Nome da loja</label>
+                        <input type="text" id="cf-loja" maxlength="100" placeholder="Ex.: Floricultura Jardim Vivo" required>
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="cf-responsavel">Nome do responsável</label>
+                        <input type="text" id="cf-responsavel" maxlength="100" autocomplete="name" required>
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="cf-email">E-mail</label>
+                        <input type="email" id="cf-email" maxlength="100" autocomplete="email" required>
+                    </div>
+
+
+                    <div class="linha-campos">
+                        <div class="campo">
+                            <label for="cf-documento">CPF ou CNPJ</label>
+                            <input type="text" id="cf-documento" inputmode="numeric" maxlength="18" required>
+                        </div>
+
+
+                        <div class="campo">
+                            <label for="cf-telefone">Telefone / WhatsApp</label>
+                            <input type="tel" id="cf-telefone" inputmode="numeric" maxlength="15" autocomplete="tel" required>
+                        </div>
+                    </div>
+
+
+                    <div class="linha-campos">
+                        <div class="campo">
+                            <label for="cf-polo">Região</label>
+                            <select id="cf-polo" required>
+                                <option value="">Selecione</option>
+                                <option value="Holambra - SP">Holambra - SP</option>
+                                <option value="São José dos Pinhais - PR">São José dos Pinhais - PR</option>
+                                <option value="Gravatá - PE">Gravatá - PE</option>
+                                <option value="Brasília - DF">Brasília - DF</option>
+                                <option value="Benevides - PA">Benevides - PA</option>
+                            </select>
+                        </div>
+
+
+                        <div class="campo">
+                            <label for="cf-cidade">Cidade</label>
+                            <input type="text" id="cf-cidade" maxlength="100" required>
+                        </div>
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="cf-descricao">Sobre a loja (opcional)</label>
+                        <textarea id="cf-descricao" maxlength="500" placeholder="Ex.: Rosas e tulipas colhidas no dia, direto do produtor."></textarea>
+                    </div>
+
+
+                    <div class="linha-campos">
+                        <div class="campo">
+                            <label for="cf-senha">Senha</label>
+                            <input type="password" id="cf-senha" minlength="6" autocomplete="new-password" required>
+                        </div>
+
+
+                        <div class="campo">
+                            <label for="cf-confirmar">Confirmar senha</label>
+                            <input type="password" id="cf-confirmar" autocomplete="new-password" required>
+                        </div>
+                    </div>
+
+
+                    <p class="erro-form" id="erro-cadastro-forn" role="alert" hidden></p>
+
+
+                    <button type="submit" class="submit-btn">Criar minha loja</button>
+                </form>
+
+
+                <!-- ESQUECI MINHA SENHA -->
+                <form id="form-recuperar-senha" class="form-forn" novalidate hidden>
+                    <h2>Criar uma nova senha</h2>
+
+
+                    <p class="aviso-form">
+                        Confirme o e-mail e o CPF ou CNPJ usados no cadastro da loja.
+                    </p>
+
+
+                    <div class="campo">
+                        <label for="rs-email">E-mail</label>
+                        <input type="email" id="rs-email" autocomplete="email" required>
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="rs-documento">CPF ou CNPJ</label>
+                        <input type="text" id="rs-documento" inputmode="numeric" maxlength="18" required>
+                    </div>
+
+
+                    <div class="linha-campos">
+                        <div class="campo">
+                            <label for="rs-nova">Nova senha</label>
+                            <input type="password" id="rs-nova" minlength="6" autocomplete="new-password" required>
+                        </div>
+
+
+                        <div class="campo">
+                            <label for="rs-confirmar">Confirmar nova senha</label>
+                            <input type="password" id="rs-confirmar" autocomplete="new-password" required>
+                        </div>
+                    </div>
+
+
+                    <p class="erro-form" id="erro-recuperar" role="alert" hidden></p>
+
+
+                    <button type="submit" class="submit-btn">Salvar nova senha</button>
+
+
+                    <button type="button" class="link-simples" id="link-voltar-login">
+                        Voltar para o login
+                    </button>
+                </form>
+            </div>
+        </section>
+
+
+
+
+        <!-- ==========================================
+             PAINEL (aparece depois do login)
+             ========================================== -->
+        <section id="painel" hidden>
+
+
+            <div class="painel-topo">
+                <div>
+                    <span class="selo" id="painel-polo"></span>
+                    <h1 id="painel-titulo">Olá!</h1>
+                    <p>Gerencie seus produtos e acompanhe seus pedidos.</p>
+                </div>
+
+
+                <a href="floresdaminharegiao.html" class="botao-contorno" id="link-minha-vitrine">Ver minha loja no site</a>
+            </div>
+
+
+            <!-- RESUMO -->
+            <div class="grid-resumo">
+                <div class="cartao-resumo">
+                    <span>Produtos na vitrine</span>
+                    <strong id="resumo-produtos">0</strong>
+                </div>
+
+
+                <div class="cartao-resumo">
+                    <span>Pedidos novos</span>
+                    <strong id="resumo-pedidos-novos">0</strong>
+                </div>
+
+
+                <div class="cartao-resumo">
+                    <span>Faturamento</span>
+                    <strong id="resumo-faturamento">R$ 0,00</strong>
+                </div>
+
+
+                <div class="cartao-resumo">
+                    <span>Itens vendidos</span>
+                    <strong id="resumo-itens">0</strong>
+                </div>
+            </div>
+
+
+            <!-- SEÇÃO: MEUS PRODUTOS -->
+            <div class="painel-secao" data-secao="produtos">
+                <div class="cartao-branco">
+                    <div class="cabecalho-lista">
+                        <h2>Meus produtos</h2>
+
+
+                        <div class="acoes-lista">
+                            <input type="search" id="busca-produtos" placeholder="Buscar por flor ou cor" aria-label="Buscar produto">
+                            <button type="button" class="botao-contorno" id="btn-ir-novo-produto">+ Novo produto</button>
+                        </div>
+                    </div>
+
+
+                    <div id="lista-produtos-forn"></div>
+                </div>
+            </div>
+
+
+            <!-- SEÇÃO: NOVO PRODUTO (também usada para editar) -->
+            <div class="painel-secao" data-secao="novo" hidden>
+                <form id="form-produto" class="form-forn cartao-branco form-loja" novalidate>
+                    <h2 id="titulo-form-produto">Novo produto</h2>
+
+
+                    <input type="hidden" id="produto-id">
+
+
+                    <div class="campo">
+                        <label for="produto-flor">Flor</label>
+                        <select id="produto-flor" required>
+                            <option value="">Carregando flores...</option>
+                        </select>
+                    </div>
+
+
+                    <div class="linha-campos">
+                        <div class="campo">
+                            <label for="produto-cor">Cor</label>
+                            <input type="text" id="produto-cor" list="lista-cores" maxlength="100" placeholder="Ex.: Vermelho" required>
+                            <datalist id="lista-cores">
+                                <option value="Amarelo">
+                                <option value="Azul">
+                                <option value="Branco">
+                                <option value="Laranja">
+                                <option value="Rosa">
+                                <option value="Roxo">
+                                <option value="Vermelho">
+                                <option value="Colorido">
+                            </datalist>
+                        </div>
+
+
+                        <div class="campo">
+                            <label for="produto-tamanho">Tamanho</label>
+                            <select id="produto-tamanho" required>
+                                <option value="">Selecione</option>
+                                <option value="Pequeno">Pequeno</option>
+                                <option value="Médio">Médio</option>
+                                <option value="Grande">Grande</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="linha-campos">
+                        <div class="campo">
+                            <label for="produto-preco">Preço (R$)</label>
+                            <input type="number" id="produto-preco" min="1" step="0.01" inputmode="decimal" required>
+                        </div>
+
+
+                        <div class="campo">
+                            <label for="produto-estoque">Estoque</label>
+                            <input type="number" id="produto-estoque" min="0" step="1" inputmode="numeric" required>
+                        </div>
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="produto-descricao">Descrição (opcional)</label>
+                        <textarea id="produto-descricao" maxlength="500" placeholder="Quantas flores, tipo de embalagem, cuidados..."></textarea>
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="produto-foto">Foto (opcional)</label>
+                        <input type="file" id="produto-foto" accept="image/*">
+                        <img id="produto-preview" class="preview-foto" alt="Prévia da foto do produto" hidden>
+                        <button type="button" class="link-simples" id="btn-remover-foto" hidden>Remover foto</button>
+                    </div>
+
+
+                    <label class="campo-check">
+                        <input type="checkbox" id="produto-ativo" checked>
+                        Mostrar este produto na vitrine
+                    </label>
+
+
+                    <p class="erro-form" id="erro-produto" role="alert" hidden></p>
+
+
+                    <button type="submit" class="submit-btn" id="btn-salvar-produto">Cadastrar produto</button>
+                    <button type="button" class="botao-secundario" id="btn-cancelar-edicao" hidden>Cancelar edição</button>
+                </form>
+            </div>
+
+
+            <!-- SEÇÃO: PEDIDOS -->
+            <div class="painel-secao" data-secao="pedidos" hidden>
+                <div class="cartao-branco">
+                    <div class="cabecalho-lista">
+                        <h2>Pedidos recebidos</h2>
+
+
+                        <div class="acoes-lista">
+                            <select id="filtro-status-pedido" aria-label="Filtrar pedidos por status">
+                                <option value="">Todos os status</option>
+                                <option value="novo">Novos</option>
+                                <option value="preparo">Em preparo</option>
+                                <option value="entrega">Saiu para entrega</option>
+                                <option value="entregue">Entregues</option>
+                                <option value="cancelado">Cancelados</option>
+                            </select>
+
+
+                            <button type="button" class="botao-contorno" id="btn-atualizar-pedidos">
+                                Atualizar
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div id="lista-pedidos-forn"></div>
+                </div>
+            </div>
+
+
+            <!-- SEÇÃO: MINHA LOJA -->
+            <div class="painel-secao" data-secao="loja" hidden>
+                <div class="layout-loja">
+
+
+                    <form id="form-loja" class="form-forn cartao-branco" novalidate>
+                        <h2>Dados da loja</h2>
+
+
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="loja-nome">Nome da loja</label>
+                                <input type="text" id="loja-nome" maxlength="100" required>
+                            </div>
+
+
+                            <div class="campo">
+                                <label for="loja-responsavel">Responsável</label>
+                                <input type="text" id="loja-responsavel" maxlength="100" required>
+                            </div>
+                        </div>
+
+
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="loja-email">E-mail</label>
+                                <input type="email" id="loja-email" disabled>
+                            </div>
+
+
+                            <div class="campo">
+                                <label for="loja-telefone">Telefone / WhatsApp</label>
+                                <input type="tel" id="loja-telefone" inputmode="numeric" maxlength="15" required>
+                            </div>
+                        </div>
+
+
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="loja-polo">Região</label>
+                                <select id="loja-polo" required>
+                                    <option value="Holambra - SP">Holambra - SP</option>
+                                    <option value="São José dos Pinhais - PR">São José dos Pinhais - PR</option>
+                                    <option value="Gravatá - PE">Gravatá - PE</option>
+                                    <option value="Brasília - DF">Brasília - DF</option>
+                                    <option value="Benevides - PA">Benevides - PA</option>
+                                </select>
+                            </div>
+
+
+                            <div class="campo">
+                                <label for="loja-cidade">Cidade</label>
+                                <input type="text" id="loja-cidade" maxlength="100" required>
+                            </div>
+                        </div>
+
+
+                        <div class="campo">
+                            <label for="loja-descricao">Sobre a loja (opcional)</label>
+                            <textarea id="loja-descricao" maxlength="500"></textarea>
+                        </div>
+
+
+                        <p class="aviso-form">
+                            Se você trocar a região, seus produtos passam a aparecer na vitrine da nova região.
+                        </p>
+
+
+                        <p class="erro-form" id="erro-loja" role="alert" hidden></p>
+
+
+                        <button type="submit" class="submit-btn">Salvar dados da loja</button>
+                    </form>
+
+
+                    <form id="form-senha" class="form-forn cartao-branco" novalidate>
+                        <h2>Alterar senha</h2>
+
+
+                        <p class="aviso-form">A nova senha precisa ter pelo menos 6 caracteres.</p>
+
+
+                        <div class="campo">
+                            <label for="senha-atual">Senha atual</label>
+                            <input type="password" id="senha-atual" autocomplete="current-password" required>
+                        </div>
+
+
+                        <div class="campo">
+                            <label for="senha-nova">Nova senha</label>
+                            <input type="password" id="senha-nova" minlength="6" autocomplete="new-password" required>
+                        </div>
+
+
+                        <div class="campo">
+                            <label for="senha-confirmar">Confirmar nova senha</label>
+                            <input type="password" id="senha-confirmar" autocomplete="new-password" required>
+                        </div>
+
+
+                        <p class="erro-form" id="erro-senha" role="alert" hidden></p>
+
+
+                        <button type="submit" class="submit-btn">Salvar nova senha</button>
+                    </form>
+
+
+                </div>
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- AVISO RÁPIDO (toast) -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+
+    <!-- RODAPÉ: logo, Central de ajuda e redes sociais -->
+    <footer class="footer footer-fornecedor rodape">
+        <a href="index.html" class="rodape-logo" aria-label="BloomMarket, página inicial">
+            <img src="imagens/logo-bloommarket.png" alt="BloomMarket" class="logo-footer">
+        </a>
+
+
+        <a href="ajuda.html" class="rodape-ajuda">
+            <span class="rodape-ajuda-icone" aria-hidden="true">?</span>
+            <span class="rodape-ajuda-texto">
+                <strong>Central de ajuda</strong>
+                <small>Pedidos, entregas, trocas e privacidade</small>
+            </span>
+        </a>
+
+
+        <div class="redes">
+            <a href="mailto:contato@bloommarket.com.br" aria-label="E-mail">
+                <img src="imagens/icone-email.png" alt="E-mail">
+            </a>
+            <a href="https://wa.me/551140000000" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <img src="imagens/icone-whatsapp.png" alt="WhatsApp">
+            </a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+                <img src="imagens/icone-instagram.png" alt="Instagram">
+            </a>
+            <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <img src="imagens/icone-linkedin.png" alt="LinkedIn">
+            </a>
+        </div>
+    </footer>
+
+
+</body>
+</html>
+
+
+

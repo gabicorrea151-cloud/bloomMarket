@@ -1,0 +1,869 @@
+/* ==================================================
+BLOOMMARKET — COMPLEMENTOS
+Busca da vitrine, página do produto, página da loja,
+avaliações das lojas, "esqueci minha senha",
+link "Quero vender" e botões alinhados nos cartões.
+================================================== */
+
+
+/* Texto que só leitores de tela "enxergam" */
+.visualmente-oculto {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+
+/* ==================================================
+LINK "QUERO VENDER NO BLOOMMARKET" NO MENU DE CIMA
+================================================== */
+
+
+.menu .link-vender {
+    padding: 6px 14px;
+    border: 2px solid var(--branco);
+    border-radius: 20px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+}
+
+
+.menu .link-vender:hover {
+    opacity: 1;
+    background: var(--branco);
+    color: var(--vermelho);
+}
+
+
+/* ==================================================
+CARTÕES DE PRODUTO: BOTÃO SEMPRE NA MESMA ALTURA
+================================================== */
+
+
+.grid-produtos,
+.grid-produtos-vitrine {
+    align-items: stretch;
+}
+
+
+.cartao-produto {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.cartao-produto .preco {
+    margin-top: auto;
+}
+
+
+.cartao-produto[hidden] {
+    display: none;
+}
+
+
+/* ==================================================
+LINK DOS CARTÕES DE PRODUTO
+================================================== */
+
+
+.link-produto {
+    display: block;
+    color: inherit;
+}
+
+
+.link-produto:hover h4 {
+    color: var(--vermelho);
+    text-decoration: underline;
+}
+
+
+/* ==================================================
+BUSCA E ORDENAÇÃO DA VITRINE
+================================================== */
+
+
+.barra-busca-vitrine {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+
+.campo-busca {
+    flex: 1 1 260px;
+}
+
+
+.campo-busca input {
+    width: 100%;
+    padding: 12px 16px 12px 44px;
+    background: var(--branco) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888888' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.5' y2='16.5'/%3E%3C/svg%3E") no-repeat 15px center / 18px;
+    border: 1.5px solid #cccccc;
+    border-radius: 25px;
+    outline: none;
+}
+
+
+.campo-busca input:focus,
+.campo-ordenar select:focus {
+    border-color: var(--vermelho);
+    box-shadow: 0 0 0 3px rgba(227, 6, 32, 0.12);
+}
+
+
+.campo-ordenar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+.campo-ordenar select {
+    padding: 11px 14px;
+    background: var(--branco);
+    border: 1.5px solid #cccccc;
+    border-radius: 25px;
+    outline: none;
+}
+
+
+.contagem-flores {
+    margin-top: 10px;
+    color: var(--cinza);
+    font-size: 13px;
+}
+
+
+/* ==================================================
+ESQUECI MINHA SENHA (CLIENTE)
+================================================== */
+
+
+.link-esqueci-cliente {
+    display: block;
+    margin: 12px auto 0;
+}
+
+
+.texto-recuperar {
+    margin: -16px 0 20px;
+    color: #444444;
+    font-size: 14px;
+}
+
+
+.voltar-login-cliente {
+    position: absolute;
+    top: 17px;
+    left: 18px;
+    color: var(--cinza);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.voltar-login-cliente:hover {
+    color: var(--vermelho);
+}
+
+
+/* ==================================================
+PÁGINA DO PRODUTO
+================================================== */
+
+
+.pagina-produto,
+.pagina-loja {
+    display: grid;
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px 80px;
+}
+
+
+.carregando-produto {
+    padding: 60px 0;
+    color: var(--cinza);
+    text-align: center;
+}
+
+
+.caminho-produto {
+    color: var(--cinza);
+    font-size: 13px;
+}
+
+
+.caminho-produto a {
+    color: var(--cinza);
+}
+
+
+.caminho-produto a:hover {
+    color: var(--vermelho);
+    text-decoration: underline;
+}
+
+
+.caminho-produto .atual {
+    color: #111111;
+    font-weight: 600;
+}
+
+
+.produto-principal {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+}
+
+
+.produto-foto {
+    padding: 16px;
+    background: var(--branco);
+    border-radius: 22px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+}
+
+
+.produto-foto img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+
+.produto-info {
+    display: grid;
+    gap: 12px;
+}
+
+
+.produto-info .selo {
+    justify-self: start;
+    margin-bottom: 0;
+}
+
+
+.produto-info h1 {
+    font-size: clamp(26px, 4vw, 36px);
+    line-height: 1.2;
+}
+
+
+.produto-vendedor {
+    color: #555555;
+}
+
+
+.produto-preco {
+    margin-top: 6px;
+    color: var(--vermelho);
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+
+.produto-parcelas {
+    color: #444444;
+    font-size: 14px;
+}
+
+
+.produto-estoque {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+.estoque-ok {
+    color: #1d7a3a;
+}
+
+
+.estoque-pouco {
+    color: #b26a00;
+}
+
+
+.estoque-zero {
+    color: var(--vermelho-escuro);
+}
+
+
+.produto-compra {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+
+.seletor-quantidade {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--branco);
+    border: 1.5px solid #cccccc;
+    border-radius: 25px;
+}
+
+
+.seletor-quantidade button {
+    width: 44px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+}
+
+
+.seletor-quantidade button:hover:not(:disabled) {
+    background: var(--creme);
+}
+
+
+.seletor-quantidade button:disabled {
+    cursor: not-allowed;
+    opacity: 0.35;
+}
+
+
+/* Campo de quantidade sem as setinhas do navegador
+   (o site usa os botões − e + no lugar delas) */
+.seletor-quantidade input {
+    width: 50px;
+    height: 48px;
+    border: none;
+    font-weight: 700;
+    text-align: center;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+
+.seletor-quantidade input::-webkit-inner-spin-button,
+.seletor-quantidade input::-webkit-outer-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+
+.botao-comprar-produto {
+    flex: 1;
+    width: auto;
+    min-width: 200px;
+    padding: 14px 20px;
+    font-size: 16px;
+}
+
+
+.botao-comprar-produto:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+
+.produto-vantagens {
+    display: grid;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 16px 18px;
+    background: var(--branco);
+    border-radius: 14px;
+    color: #333333;
+    font-size: 14px;
+    list-style: none;
+}
+
+
+.produto-detalhes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+
+.produto-detalhes h2 {
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+
+
+.produto-detalhes p {
+    color: #444444;
+    line-height: 1.7;
+}
+
+
+.produto-detalhes .meta {
+    margin-top: 10px;
+}
+
+
+.lista-cuidados {
+    display: grid;
+    gap: 10px;
+    padding-left: 20px;
+    color: #444444;
+    line-height: 1.6;
+}
+
+
+.produtos-parecidos h2 {
+    margin-bottom: 18px;
+    font-size: 24px;
+}
+
+
+.produto-nao-encontrado {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    max-width: 560px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+
+/* Link para a loja e nota da loja */
+.link-loja {
+    color: var(--vermelho);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+
+.link-loja:hover {
+    color: var(--vermelho-escuro);
+}
+
+
+.nota-loja-mini {
+    justify-self: start;
+    color: #555555;
+    font-size: 14px;
+}
+
+
+.nota-loja-mini:hover {
+    text-decoration: underline;
+}
+
+
+.estrelas-douradas {
+    color: #e0a100;
+    letter-spacing: 1px;
+}
+
+
+.cabecalho-secao-produto {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+
+.cabecalho-secao-produto h2 {
+    font-size: 24px;
+}
+
+
+/* ==================================================
+PÁGINA DA LOJA
+================================================== */
+
+
+.topo-loja {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+}
+
+
+.avatar-loja {
+    display: grid;
+    place-items: center;
+    width: 92px;
+    height: 92px;
+    background: linear-gradient(135deg, var(--vermelho), #ff6b7d);
+    border-radius: 50%;
+    box-shadow: 0 6px 16px rgba(227, 6, 32, 0.25);
+    color: var(--branco);
+    font-size: 40px;
+    font-weight: 800;
+}
+
+
+.info-loja h1 {
+    font-size: clamp(24px, 4vw, 32px);
+    line-height: 1.2;
+}
+
+
+.local-loja {
+    margin: 4px 0 12px;
+    color: #555555;
+}
+
+
+.numeros-loja {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+
+.numero-loja {
+    padding: 6px 12px;
+    background: var(--creme);
+    border-radius: 20px;
+    color: #333333;
+    font-size: 13px;
+}
+
+
+.secao-loja h2 {
+    margin-bottom: 16px;
+    font-size: 24px;
+}
+
+
+.filtros-loja {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+
+.chip-filtro {
+    padding: 8px 16px;
+    background: var(--branco);
+    border: 1.5px solid #dddddd;
+    border-radius: 20px;
+    color: #333333;
+    font-size: 14px;
+    font-weight: 600;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+
+.chip-filtro:hover {
+    border-color: var(--vermelho);
+}
+
+
+.chip-filtro.ativo {
+    background: var(--vermelho);
+    border-color: var(--vermelho);
+    color: var(--branco);
+}
+
+
+/* Avaliações: resumo + lista */
+.layout-avaliacoes-loja {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+
+.resumo-nota {
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    text-align: center;
+}
+
+
+.nota-grande {
+    color: #111111;
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+
+.estrelas-resumo {
+    font-size: 22px;
+}
+
+
+.barras-nota {
+    display: grid;
+    gap: 6px;
+    width: 100%;
+    margin-top: 12px;
+}
+
+
+.linha-nota {
+    display: grid;
+    grid-template-columns: 30px 1fr 24px;
+    align-items: center;
+    gap: 8px;
+    color: #555555;
+    font-size: 13px;
+}
+
+
+.trilho-nota {
+    height: 8px;
+    overflow: hidden;
+    background: #eeeeee;
+    border-radius: 10px;
+}
+
+
+.preenchido-nota {
+    height: 100%;
+    background: #e0a100;
+    border-radius: 10px;
+}
+
+
+.lista-avaliacoes-loja {
+    display: grid;
+    gap: 14px;
+}
+
+
+.secao-avaliacoes-produto .lista-avaliacoes-loja {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+
+.avaliacao-loja {
+    display: grid;
+    gap: 6px;
+    padding: 18px 20px;
+}
+
+
+.cabecalho-avaliacao-loja {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+
+.selo-verificada {
+    padding: 3px 10px;
+    background: #e5f6ea;
+    border-radius: 20px;
+    color: #1d7a3a;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+.comentario-avaliacao-loja {
+    color: #444444;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+
+/* ==================================================
+MEUS PEDIDOS: CANCELAR E AVALIAR
+================================================== */
+
+
+.acoes-pedido-cliente {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.botao-cancelar-pedido {
+    padding: 9px 18px;
+    background: transparent;
+    border: 1.5px solid #cccccc;
+    border-radius: 25px;
+    color: #555555;
+    font-weight: 600;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+
+.botao-cancelar-pedido:hover {
+    border-color: var(--vermelho);
+    color: var(--vermelho);
+}
+
+
+.form-avaliar {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 18px;
+    background: var(--creme);
+    border-radius: 14px;
+}
+
+
+.form-avaliar[hidden] {
+    display: none;
+}
+
+
+.form-avaliar h3 {
+    font-size: 17px;
+}
+
+
+.form-avaliar textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 12px;
+    background: var(--branco);
+    border: 1.5px solid #cccccc;
+    border-radius: 10px;
+    resize: vertical;
+    outline: none;
+}
+
+
+.form-avaliar textarea:focus {
+    border-color: var(--vermelho);
+}
+
+
+.form-avaliar .submit-btn {
+    justify-self: start;
+    width: auto;
+    margin-top: 4px;
+    padding: 11px 26px;
+}
+
+
+.estrelas-escolha {
+    display: flex;
+    gap: 4px;
+}
+
+
+.estrela-escolha {
+    padding: 0 2px;
+    background: none;
+    border: none;
+    color: #cccccc;
+    font-size: 34px;
+    line-height: 1;
+    transition: color 0.15s, transform 0.15s;
+}
+
+
+.estrela-escolha:hover {
+    transform: scale(1.12);
+}
+
+
+.estrela-escolha.marcada {
+    color: #e0a100;
+}
+
+
+.minha-avaliacao {
+    display: grid;
+    gap: 4px;
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: #fffaf0;
+    border-left: 4px solid #e0a100;
+    border-radius: 10px;
+}
+
+
+.minha-avaliacao p {
+    color: #444444;
+    font-style: italic;
+}
+
+
+/* ==================================================
+RESPONSIVIDADE
+================================================== */
+
+
+@media (max-width: 800px) {
+    .produto-principal,
+    .layout-avaliacoes-loja {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+
+    .produto-preco {
+        font-size: 28px;
+    }
+
+
+    .topo-loja {
+        grid-template-columns: auto 1fr;
+    }
+
+
+    .acoes-loja {
+        grid-column: 1 / -1;
+    }
+}
+
+
+@media (max-width: 650px) {
+    .menu .link-vender {
+        padding: 4px 10px;
+    }
+
+
+    .topo-loja {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+    }
+
+
+    .numeros-loja {
+        justify-content: center;
+    }
+
+
+    .avatar-loja {
+        width: 76px;
+        height: 76px;
+        font-size: 32px;
+    }
+}
+
+
+

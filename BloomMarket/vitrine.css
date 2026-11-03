@@ -1,0 +1,331 @@
+/* ==================================================
+BLOOMMARKET — VITRINE NOVA (dados do banco)
+Filtros, cartões, home, página do produto e boleto.
+O script.js coloca este arquivo em todas as páginas.
+================================================== */
+
+
+/* ---------- Mensagens de carregando e de erro ---------- */
+
+
+.carregando-produto {
+    grid-column: 1 / -1;
+    padding: 40px 0;
+    color: var(--cinza, #777);
+    text-align: center;
+}
+
+
+.erro-servidor {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 6px;
+    padding: 20px;
+    background: #fff1f2;
+    border: 1px solid #f7c4ca;
+    border-radius: 14px;
+    color: #8a0f1a;
+    text-align: center;
+}
+
+
+.lista-vazia {
+    grid-column: 1 / -1;
+}
+
+
+/* ---------- Cartão de produto ---------- */
+
+
+.cartao-produto .detalhe-variacao {
+    margin: -4px 0 4px;
+    color: #555555;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+.cartao-produto .vendido-por .link-loja {
+    font-weight: 600;
+}
+
+
+/* ---------- Filtros da vitrine ---------- */
+
+
+.barra-filtros select,
+.campo-ordenar select {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--branco, #fff);
+    border: 1.5px solid #cccccc;
+    border-radius: 12px;
+    color: #222222;
+    font: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+
+.barra-filtros select:focus {
+    border-color: var(--vermelho, #e30620);
+}
+
+
+.barra-filtros .grupo-filtro {
+    display: grid;
+    gap: 8px;
+}
+
+
+.botao-limpar-filtros {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px;
+    background: transparent;
+    border: 1.5px solid #cccccc;
+    border-radius: 25px;
+    color: #444444;
+    font-weight: 600;
+}
+
+
+.botao-limpar-filtros:hover {
+    border-color: var(--vermelho, #e30620);
+    color: var(--vermelho, #e30620);
+}
+
+
+.aviso-regiao {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #fff8e1;
+    border-radius: 10px;
+    color: #6b5200;
+    font-size: 14px;
+}
+
+
+/* ---------- Home: escolha sua flor ---------- */
+
+
+.grid-flores-home {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+}
+
+
+.cartao-flor {
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+    padding: 18px 10px;
+    background: var(--branco, #fff);
+    border-radius: 18px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    color: #222222;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+
+.cartao-flor:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(227, 6, 32, 0.14);
+}
+
+
+.cartao-flor .emoji-flor {
+    font-size: 40px;
+    line-height: 1.2;
+}
+
+
+.cartao-flor small {
+    color: var(--vermelho, #e30620);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* ---------- Home: lojas parceiras ---------- */
+
+
+.grid-lojas-home {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+}
+
+
+.cartao-loja-home {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: var(--branco, #fff);
+    border-radius: 18px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    color: #222222;
+    transition: transform 0.2s;
+}
+
+
+.cartao-loja-home:hover {
+    transform: translateY(-3px);
+}
+
+
+.avatar-loja-mini {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--vermelho, #e30620), #ff6b7d);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+
+.info-loja-home {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+}
+
+
+.info-loja-home small {
+    color: #666666;
+    font-size: 12px;
+}
+
+
+/* ---------- Página do produto: escolher cor e tamanho ---------- */
+
+
+.escolha-variacao {
+    display: grid;
+    gap: 8px;
+}
+
+
+.escolha-variacao h3 {
+    font-size: 14px;
+}
+
+
+.opcoes-variacao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+
+.opcao-variacao {
+    padding: 8px 14px;
+    background: var(--branco, #fff);
+    border: 1.5px solid #dddddd;
+    border-radius: 20px;
+    color: #333333;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+.opcao-variacao:hover {
+    border-color: var(--vermelho, #e30620);
+}
+
+
+.opcao-variacao.ativa {
+    background: var(--vermelho, #e30620);
+    border-color: var(--vermelho, #e30620);
+    color: #ffffff;
+}
+
+
+.opcao-variacao:disabled {
+    opacity: 0.4;
+    text-decoration: line-through;
+    cursor: not-allowed;
+}
+
+
+/* ---------- Página de avaliações ---------- */
+
+
+.passos-avaliar {
+    display: grid;
+    gap: 6px;
+    margin: 12px 0 18px 20px;
+    color: #444444;
+}
+
+
+.resumo-avaliacoes {
+    margin-bottom: 14px;
+    font-size: 15px;
+}
+
+
+.cartao-avaliacao .selo-verificada {
+    display: inline-block;
+    margin-top: 8px;
+}
+
+
+/* ---------- Boleto (checkout) ---------- */
+
+
+.checkout-boleto {
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+.boleto-caixa {
+    display: grid;
+    gap: 12px;
+    margin: 18px 0;
+    padding: 20px;
+    background: #fafaf5;
+    border: 1.5px dashed #cfcfbf;
+    border-radius: 16px;
+    text-align: left;
+}
+
+
+.boleto-barras {
+    height: 56px;
+    background: repeating-linear-gradient(90deg,
+        #111 0 2px, transparent 2px 4px, #111 4px 5px, transparent 5px 8px,
+        #111 8px 11px, transparent 11px 12px, #111 12px 13px, transparent 13px 16px);
+    border-radius: 4px;
+}
+
+
+.boleto-linha {
+    font-family: "Courier New", monospace;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    word-break: break-all;
+}
+
+
+.boleto-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    color: #444444;
+    font-size: 14px;
+}
+
+
+
