@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conheça a loja, veja os produtos e as avaliações de quem já comprou no BloomMarket.">
+
+    <title>Loja | BloomMarket</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fornecedor.css">
+    <link rel="stylesheet" href="complementos.css">
+    <link rel="stylesheet" href="rodape.css">
+
+    <!-- O loja.js precisa vir ANTES do script.js -->
+    <script src="loja.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="imagens/logo-bloommarket.png" alt="BloomMarket">
+        </a>
+
+        <nav class="menu">
+            <a href="index.html">Home</a>
+            <a href="floresdaminharegiao.html">Flores da minha região</a>
+            <a href="sobrenos&amp;logistica.html">Sobre nós & logística</a>
+            <a href="avaliacao.html">Avaliação</a>
+            <a href="painel-fornecedor.html?cadastro=1" class="link-vender">Quero vender no BloomMarket</a>
+        </nav>
+
+        <div class="login">
+            <button type="button" id="btn-ver-carrinho" class="entrar-btn">
+                Carrinho (<span id="contador-carrinho">0</span>)
+            </button>
+
+            <button type="button" id="btn-abrir-auth" class="entrar-btn">
+                Entrar
+            </button>
+        </div>
+    </header>
+
+    <!-- LOGIN E CADASTRO -->
+    <div class="modal-overlay" id="modalAuth">
+
+        <!-- ESCOLHA: CLIENTE OU FORNECEDOR -->
+        <div class="form-container form-escolha" id="containerEscolha">
+            <button type="button" class="close-btn id-btn-fechar" aria-label="Fechar">&times;</button>
+
+            <h2>Como você quer entrar?</h2>
+
+            <div class="escolha-perfil">
+                <button type="button" class="cartao-perfil" id="btn-sou-cliente">
+                    <span class="icone-perfil">🛍️</span>
+                    <strong>Sou cliente</strong>
+                    <small>Quero comprar flores da minha região</small>
+                </button>
+
+                <a href="painel-fornecedor.html" class="cartao-perfil">
+                    <span class="icone-perfil">🌷</span>
+                    <strong>Sou fornecedor</strong>
+                    <small>Quero vender minhas flores no BloomMarket</small>
+                </a>
+            </div>
+        </div>
+
+        <!-- LOGIN DO CLIENTE -->
+        <div class="form-container" id="containerLogin" style="display: none;">
+            <a href="#" class="voltar-escolha">← Voltar</a>
+            <button type="button" class="close-btn id-btn-fechar" aria-label="Fechar">&times;</button>
+
+            <h2>Login</h2>
+
+            <form id="form-login-cliente" novalidate>
+                <div class="input-box">
+                    <input required type="email" id="login-email" autocomplete="email" placeholder=" ">
+                    <span>E-mail</span>
+                </div>
+
+                <div class="input-box">
+                    <input required type="password" id="login-senha" autocomplete="current-password" placeholder=" ">
+                    <span>Senha</span>
+                </div>
+
+                <p class="erro-form" id="erro-login-cliente" role="alert" hidden></p>
+
+                <button type="submit" class="submit-btn">Entrar</button>
+            </form>
+
+            <p class="switch-form">
+                Não tem uma conta?
+                <a href="#" id="link-ir-cadastro">Cadastre-se</a>
+            </p>
+        </div>
+
+        <!-- CADASTRO DO CLIENTE -->
+        <div class="form-container form-cadastro" id="containerCadastro" style="display: none;">
+            <button type="button" class="close-btn id-btn-fechar" aria-label="Fechar">&times;</button>
+
+            <h2>Criar Conta</h2>
+
+            <form id="form-cadastro-cliente" novalidate>
+                <div class="input-box">
+                    <input required type="text" id="cad-nome" autocomplete="name" placeholder=" ">
+                    <span>Nome completo</span>
+                </div>
+
+                <div class="input-box">
+                    <input required type="email" id="cad-email" autocomplete="email" placeholder=" ">
+                    <span>E-mail</span>
+                </div>
+
+                <div class="input-box">
+                    <input required type="tel" id="cad-telefone" inputmode="numeric" maxlength="15" autocomplete="tel" placeholder=" ">
+                    <span>Telefone / WhatsApp</span>
+                </div>
+
+                <div class="input-box">
+                    <input required type="text" id="cad-cep" maxlength="9" placeholder=" ">
+                    <span>CEP</span>
+                </div>
+
+                <p class="info-cep-cadastro" id="cad-info-cep" aria-live="polite"></p>
+
+                <div class="input-box">
+                    <input required type="text" id="cad-numero" placeholder=" ">
+                    <span>Número</span>
+                </div>
+
+                <div class="input-box">
+                    <input type="text" id="cad-complemento" placeholder=" ">
+                    <span>Complemento (opcional)</span>
+                </div>
+
+                <div class="input-box">
+                    <input required type="password" id="cad-senha" minlength="6" autocomplete="new-password" placeholder=" ">
+                    <span>Senha</span>
+                </div>
+
+                <div class="input-box">
+                    <input required type="password" id="cad-confirmar-senha" autocomplete="new-password" placeholder=" ">
+                    <span>Confirmar senha</span>
+                </div>
+
+                <p class="erro-form" id="erro-cadastro-cliente" role="alert" hidden></p>
+
+                <button type="submit" class="submit-btn">Cadastrar</button>
+            </form>
+
+            <p class="switch-form">
+                Já tem uma conta?
+                <a href="#" id="link-ir-login">Faça login</a>
+            </p>
+        </div>
+
+        <!-- MINHA CONTA (aparece depois que o cliente entra) -->
+        <div class="form-container" id="containerConta" style="display: none;">
+            <button type="button" class="close-btn id-btn-fechar" aria-label="Fechar">&times;</button>
+
+            <h2>Minha conta</h2>
+
+            <dl class="dados-conta">
+                <div>
+                    <dt>Nome</dt>
+                    <dd id="conta-nome"></dd>
+                </div>
+                <div>
+                    <dt>E-mail</dt>
+                    <dd id="conta-email"></dd>
+                </div>
+                <div>
+                    <dt>Telefone</dt>
+                    <dd id="conta-telefone"></dd>
+                </div>
+                <div>
+                    <dt>Endereço</dt>
+                    <dd id="conta-endereco"></dd>
+                </div>
+            </dl>
+
+            <p class="aviso-form">Esses dados são preenchidos sozinhos quando você finaliza um pedido.</p>
+
+            <a href="meus-pedidos.html" class="submit-btn botao-meus-pedidos">Meus pedidos</a>
+            <button type="button" class="botao-secundario botao-sair-conta" id="btn-sair-cliente">Sair da conta</button>
+        </div>
+
+    </div>
+    <!-- FIM DO MODAL: daqui para baixo é a página -->
+
+    <!-- O loja.js preenche esta parte -->
+    <main class="pagina-loja" id="pagina-loja">
+        <p class="carregando-produto">Carregando loja...</p>
+    </main>
+
+    <!-- CARRINHO DE COMPRAS -->
+    <div class="carrinho-fundo" id="carrinho-fundo"></div>
+
+    <aside class="carrinho-lateral" id="carrinho-lateral" aria-label="Carrinho de compras">
+        <div class="carrinho-header">
+            <h3>Seu Carrinho</h3>
+
+            <button type="button" id="btn-fechar-carrinho" class="fechar-carrinho-btn" aria-label="Fechar carrinho">
+                &times;
+            </button>
+        </div>
+
+        <div class="carrinho-itens" id="carrinho-itens">
+            <p class="carrinho-vazio">Seu carrinho está vazio.</p>
+        </div>
+
+        <div class="carrinho-footer">
+            <div class="total-container">
+                <span>Total:</span>
+                <span id="preco-total-carrinho">R$ 0,00</span>
+            </div>
+
+            <button type="button" class="finalizar-btn" id="btn-finalizar-pedido">
+                Finalizar Pedido
+            </button>
+        </div>
+    </aside>
+
+    <!-- RODAPÉ: logo, Central de ajuda e redes sociais -->
+    <footer class="footer rodape">
+        <a href="index.html" class="rodape-logo" aria-label="BloomMarket, página inicial">
+            <img src="imagens/logo-bloommarket.png" alt="BloomMarket" class="logo-footer">
+        </a>
+
+        <a href="ajuda.html" class="rodape-ajuda">
+            <span class="rodape-ajuda-icone" aria-hidden="true">?</span>
+            <span class="rodape-ajuda-texto">
+                <strong>Central de ajuda</strong>
+                <small>Pedidos, entregas, trocas e privacidade</small>
+            </span>
+        </a>
+
+        <div class="redes">
+            <a href="mailto:contato@bloommarket.com.br" aria-label="E-mail">
+                <img src="imagens/icone-email.png" alt="E-mail">
+            </a>
+            <a href="https://wa.me/551140000000" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <img src="imagens/icone-whatsapp.png" alt="WhatsApp">
+            </a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+                <img src="imagens/icone-instagram.png" alt="Instagram">
+            </a>
+            <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <img src="imagens/icone-linkedin.png" alt="LinkedIn">
+            </a>
+        </div>
+    </footer>
+
+</body>
+</html>
