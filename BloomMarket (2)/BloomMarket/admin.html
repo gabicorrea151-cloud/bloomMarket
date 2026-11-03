@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+
+    <title>BloomMarket | Administração</title>
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌷%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fornecedor.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="rodape.css">
+
+    <!-- O script.js vem antes: ele cria o objeto Bloom usado pelo admin.js -->
+    <script src="script.js" defer></script>
+    <script src="admin.js" defer></script>
+</head>
+
+<body>
+
+    <!-- CABEÇALHO DO ADMINISTRADOR -->
+    <header class="header header-fornecedor header-admin">
+        <a href="admin.html" class="logo">
+            <img src="imagens/logo-bloommarket.png" alt="BloomMarket">
+            <span class="tag-fornecedor tag-admin">Administração</span>
+        </a>
+
+        <nav class="menu" id="menu-admin" aria-label="Menu do administrador" hidden>
+            <button type="button" class="link-menu ativo" data-menu-admin="visao" aria-current="page">Visão geral</button>
+            <button type="button" class="link-menu" data-menu-admin="lojas">Lojas</button>
+            <button type="button" class="link-menu" data-menu-admin="pedidos">Pedidos</button>
+            <button type="button" class="link-menu" data-menu-admin="clientes">Clientes</button>
+            <button type="button" class="link-menu" data-menu-admin="cupons">Cupons</button>
+            <button type="button" class="link-menu" data-menu-admin="avaliacoes">Avaliações</button>
+        </nav>
+
+        <div class="login">
+            <a href="index.html" class="entrar-btn" id="btn-voltar-loja-admin">Ir para a loja</a>
+            <button type="button" class="entrar-btn" id="btn-sair-admin" hidden>Sair</button>
+        </div>
+    </header>
+
+    <main class="pagina-admin">
+
+        <!-- ==========================================
+             LOGIN DO ADMINISTRADOR
+             ========================================== -->
+        <section id="admin-acesso" class="acesso-admin cartao-branco">
+            <span class="selo">Área restrita</span>
+            <h1>Painel do BloomMarket</h1>
+            <p>Acesso exclusivo para a equipe que administra a plataforma.</p>
+
+            <form id="form-login-admin" class="form-forn" novalidate>
+                <div class="campo">
+                    <label for="adm-email">E-mail</label>
+                    <input type="email" id="adm-email" autocomplete="username">
+                </div>
+
+                <div class="campo">
+                    <label for="adm-senha">Senha</label>
+                    <input type="password" id="adm-senha" autocomplete="current-password">
+                </div>
+
+                <p class="erro-form" id="erro-login-admin" role="alert" hidden></p>
+
+                <button type="submit" class="submit-btn">Entrar</button>
+            </form>
+
+            <p class="dica-acesso">
+                Acesso de demonstração: <strong>admin@bloommarket.com</strong> / <strong>admin123</strong>
+            </p>
+        </section>
+
+
+        <!-- ==========================================
+             PAINEL
+             ========================================== -->
+        <div id="admin-painel" hidden>
+
+            <!-- VISÃO GERAL -->
+            <section data-secao-admin="visao">
+                <div class="topo-secao-admin">
+                    <h1>Visão geral</h1>
+                    <p>Números de toda a plataforma (pedidos cancelados não entram no faturamento).</p>
+                </div>
+
+                <div class="grid-resumo">
+                    <div class="cartao-resumo">
+                        <span>Faturamento total</span>
+                        <strong id="adm-faturamento">R$ 0,00</strong>
+                    </div>
+                    <div class="cartao-resumo">
+                        <span>Comissão do BloomMarket (10%)</span>
+                        <strong id="adm-comissao">R$ 0,00</strong>
+                    </div>
+                    <div class="cartao-resumo">
+                        <span>Pedidos</span>
+                        <strong id="adm-pedidos">0</strong>
+                    </div>
+                    <div class="cartao-resumo">
+                        <span>Valor médio por pedido</span>
+                        <strong id="adm-ticket">R$ 0,00</strong>
+                    </div>
+                    <div class="cartao-resumo">
+                        <span>Lojas ativas</span>
+                        <strong id="adm-lojas">0</strong>
+                    </div>
+                    <div class="cartao-resumo">
+                        <span>Clientes cadastrados</span>
+                        <strong id="adm-clientes">0</strong>
+                    </div>
+                    <div class="cartao-resumo">
+                        <span>Pedidos em andamento</span>
+                        <strong id="adm-abertos">0</strong>
+                    </div>
+                    <div class="cartao-resumo">
+                        <span>Pedidos cancelados</span>
+                        <strong id="adm-cancelados">0</strong>
+                    </div>
+                </div>
+
+                <div class="layout-graficos">
+                    <div class="cartao-branco">
+                        <h2>Vendas nos últimos 7 dias</h2>
+                        <div class="grafico-colunas" id="grafico-dias" aria-label="Gráfico de vendas por dia"></div>
+                    </div>
+
+                    <div class="cartao-branco">
+                        <h2>Vendas por região</h2>
+                        <div class="grafico-barras" id="grafico-polos"></div>
+
+                        <h2 class="titulo-ranking">Lojas que mais vendem</h2>
+                        <ol class="ranking-lojas" id="top-lojas"></ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LOJAS -->
+            <section data-secao-admin="lojas" hidden>
+                <div class="topo-secao-admin">
+                    <h1>Lojas parceiras</h1>
+                    <p>Bloquear uma loja tira os produtos dela da vitrine e impede o acesso ao painel.</p>
+                </div>
+
+                <div class="cartao-branco">
+                    <div class="filtros-admin">
+                        <input type="search" id="busca-lojas" placeholder="Buscar por loja, cidade ou e-mail" aria-label="Buscar loja">
+                    </div>
+
+                    <div class="lista-admin" id="lista-lojas-admin"></div>
+                </div>
+            </section>
+
+            <!-- PEDIDOS -->
+            <section data-secao-admin="pedidos" hidden>
+                <div class="topo-secao-admin">
+                    <h1>Todos os pedidos</h1>
+                    <p id="contador-pedidos-admin"></p>
+                </div>
+
+                <div class="cartao-branco">
+                    <div class="filtros-admin">
+                        <input type="search" id="busca-pedidos-admin" placeholder="Número do pedido ou cliente" aria-label="Buscar pedido">
+
+                        <select id="filtro-status-admin" aria-label="Filtrar por status">
+                            <option value="">Todos os status</option>
+                            <option value="novo">Novos</option>
+                            <option value="preparo">Em preparo</option>
+                            <option value="entrega">Saiu para entrega</option>
+                            <option value="entregue">Entregues</option>
+                            <option value="cancelado">Cancelados</option>
+                        </select>
+
+                        <select id="filtro-loja-admin" aria-label="Filtrar por loja"></select>
+                    </div>
+
+                    <div class="lista-admin" id="lista-pedidos-admin"></div>
+                </div>
+            </section>
+
+            <!-- CLIENTES -->
+            <section data-secao-admin="clientes" hidden>
+                <div class="topo-secao-admin">
+                    <h1>Clientes</h1>
+                    <p id="contador-clientes-admin">Pessoas que criaram conta no BloomMarket.</p>
+                </div>
+
+                <div class="cartao-branco">
+                    <div class="lista-admin" id="lista-clientes-admin"></div>
+                </div>
+            </section>
+
+            <!-- CUPONS -->
+            <section data-secao-admin="cupons" hidden>
+                <div class="topo-secao-admin">
+                    <h1>Cupons de desconto</h1>
+                    <p>Crie cupons para campanhas (Dia das Mães, Dia dos Namorados...). Eles já funcionam no checkout.</p>
+                </div>
+
+                <div class="layout-produtos">
+
+                    <form id="form-cupom-admin" class="form-forn cartao-branco" novalidate>
+                        <h2>Novo cupom</h2>
+
+                        <div class="campo">
+                            <label for="cp-codigo">Código</label>
+                            <input type="text" id="cp-codigo" class="campo-cupom" maxlength="20" placeholder="Ex.: DIADASMAES" autocomplete="off">
+                        </div>
+
+                        <div class="campo">
+                            <label for="cp-tipo">Tipo de desconto</label>
+                            <select id="cp-tipo">
+                                <option value="porcentagem">Porcentagem (%)</option>
+                                <option value="valor">Valor fixo (R$)</option>
+                                <option value="frete">Entrega grátis</option>
+                            </select>
+                        </div>
+
+                        <div class="linha-campos">
+                            <div class="campo" id="grupo-cp-valor">
+                                <label for="cp-valor" id="rotulo-cp-valor">Desconto (%)</label>
+                                <input type="text" id="cp-valor" inputmode="decimal" placeholder="Ex.: 10">
+                            </div>
+
+                            <div class="campo">
+                                <label for="cp-minimo">Pedido mínimo (R$)</label>
+                                <input type="text" id="cp-minimo" inputmode="decimal" placeholder="0 = sem mínimo">
+                            </div>
+                        </div>
+
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="cp-validade">Válido até (opcional)</label>
+                                <input type="date" id="cp-validade">
+                            </div>
+
+                            <div class="campo">
+                                <label for="cp-limite">Limite de usos</label>
+                                <input type="number" id="cp-limite" min="0" step="1" placeholder="0 = sem limite">
+                            </div>
+                        </div>
+
+                        <label class="campo-check">
+                            <input type="checkbox" id="cp-primeira">
+                            Só para a primeira compra do cliente
+                        </label>
+
+                        <p class="erro-form" id="erro-cupom-admin" role="alert" hidden></p>
+
+                        <button type="submit" class="submit-btn">Criar cupom</button>
+                    </form>
+
+                    <div class="cartao-branco">
+                        <div class="cabecalho-lista">
+                            <h2>Cupons cadastrados</h2>
+                        </div>
+
+                        <div class="lista-admin" id="lista-cupons-admin"></div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- AVALIAÇÕES -->
+            <section data-secao-admin="avaliacoes" hidden>
+                <div class="topo-secao-admin">
+                    <h1>Avaliações das lojas</h1>
+                    <p id="media-avaliacoes"></p>
+                </div>
+
+                <div class="cartao-branco">
+                    <div class="lista-admin" id="lista-avaliacoes-admin"></div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- AVISO RÁPIDO (toast) -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- RODAPÉ: logo, Central de ajuda e redes sociais -->
+    <footer class="footer footer-fornecedor rodape">
+        <a href="index.html" class="rodape-logo" aria-label="BloomMarket, página inicial">
+            <img src="imagens/logo-bloommarket.png" alt="BloomMarket" class="logo-footer">
+        </a>
+
+        <a href="ajuda.html" class="rodape-ajuda">
+            <span class="rodape-ajuda-icone" aria-hidden="true">?</span>
+            <span class="rodape-ajuda-texto">
+                <strong>Central de ajuda</strong>
+                <small>Pedidos, entregas, trocas e privacidade</small>
+            </span>
+        </a>
+
+        <div class="redes">
+            <a href="mailto:contato@bloommarket.com.br" aria-label="E-mail">
+                <img src="imagens/icone-email.png" alt="E-mail">
+            </a>
+            <a href="https://wa.me/551140000000" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <img src="imagens/icone-whatsapp.png" alt="WhatsApp">
+            </a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+                <img src="imagens/icone-instagram.png" alt="Instagram">
+            </a>
+            <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <img src="imagens/icone-linkedin.png" alt="LinkedIn">
+            </a>
+        </div>
+    </footer>
+
+</body>
+</html>

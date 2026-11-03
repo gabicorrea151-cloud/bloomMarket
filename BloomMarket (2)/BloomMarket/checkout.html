@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Finalize seu pedido de flores no BloomMarket.">
+
+    <title>BloomMarket | Finalizar pedido</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fornecedor.css">
+    <link rel="stylesheet" href="pagamento.css">
+    <link rel="stylesheet" href="rodape.css">
+
+    <!-- O script.js vem antes: ele cria o objeto Bloom usado pelo checkout.js -->
+    <script src="script.js" defer></script>
+    <script src="checkout.js" defer></script>
+</head>
+
+<body>
+
+    <!-- CABEÇALHO SIMPLES (sem menu, para o cliente focar na compra) -->
+    <header class="header header-checkout">
+        <a href="index.html" class="logo">
+            <img src="imagens/logo-bloommarket.png" alt="BloomMarket">
+        </a>
+
+        <p class="titulo-checkout">🔒 Compra segura</p>
+
+        <div class="login">
+            <a href="floresdaminharegiao.html" class="entrar-btn">Continuar comprando</a>
+        </div>
+    </header>
+
+    <main class="pagina-checkout">
+
+        <!-- CARRINHO VAZIO -->
+        <section id="checkout-vazio" class="checkout-vazio" hidden>
+            <h1>Seu carrinho está vazio</h1>
+            <p>Escolha suas flores na vitrine e volte aqui para finalizar o pedido.</p>
+            <a href="floresdaminharegiao.html" class="botao-principal">Ver flores</a>
+        </section>
+
+        <!-- FORMULÁRIO + RESUMO -->
+        <div id="checkout-conteudo" class="layout-checkout">
+
+            <div class="coluna-checkout">
+                <h1>Finalizar pedido</h1>
+
+                <!-- CONTA DO CLIENTE (precisa entrar para comprar) -->
+                <section class="cartao-branco caixa-conta-checkout" aria-label="Sua conta">
+
+                    <div class="conta-logada" id="ck-conta-logado" hidden>
+                        <p>
+                            Olá, <strong id="ck-conta-nome"></strong>! Seus dados foram preenchidos automaticamente.
+                        </p>
+                        <button type="button" class="link-simples" id="ck-sair">Não é você? Sair</button>
+                    </div>
+
+                    <form class="ck-login" id="ck-form-login" novalidate hidden>
+                        <p>
+                            <strong>Entre na sua conta para finalizar a compra.</strong>
+                            Ainda não tem conta? <a href="index.html?entrar=cadastro" class="link-loja">Crie aqui</a>, leva 1 minuto.
+                        </p>
+
+                        <div class="ck-login-campos">
+                            <div class="campo">
+                                <label for="ck-login-email">E-mail</label>
+                                <input type="email" id="ck-login-email" autocomplete="email">
+                            </div>
+
+                            <div class="campo">
+                                <label for="ck-login-senha">Senha</label>
+                                <input type="password" id="ck-login-senha" autocomplete="current-password">
+                            </div>
+
+                            <button type="submit" class="botao-contorno">Entrar</button>
+                        </div>
+
+                        <p class="erro-form" id="ck-erro-login" role="alert" hidden></p>
+                    </form>
+                </section>
+
+                <form id="form-checkout" class="form-checkout" novalidate>
+
+                    <!-- 1. ENDEREÇO -->
+                    <fieldset class="cartao-branco bloco-checkout">
+                        <legend>1. Endereço de entrega</legend>
+
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="ck-cep">CEP</label>
+                                <input type="text" id="ck-cep" inputmode="numeric" maxlength="9" autocomplete="postal-code" required>
+                                <small class="status-cep" id="status-cep" aria-live="polite">Digite o CEP para preencher o endereço.</small>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ck-numero">Número</label>
+                                <input type="text" id="ck-numero" maxlength="10" required>
+                            </div>
+                        </div>
+
+                        <div class="campo">
+                            <label for="ck-rua">Rua</label>
+                            <input type="text" id="ck-rua" maxlength="150" autocomplete="address-line1" required>
+                        </div>
+
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="ck-complemento">Complemento (opcional)</label>
+                                <input type="text" id="ck-complemento" maxlength="100" placeholder="Apto, bloco, casa..." autocomplete="address-line2">
+                            </div>
+
+                            <div class="campo">
+                                <label for="ck-bairro">Bairro</label>
+                                <input type="text" id="ck-bairro" maxlength="100" required>
+                            </div>
+                        </div>
+
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="ck-cidade">Cidade</label>
+                                <input type="text" id="ck-cidade" maxlength="100" autocomplete="address-level2" required>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ck-estado">Estado (sigla)</label>
+                                <input type="text" id="ck-estado" maxlength="2" placeholder="SP" autocomplete="address-level1" required>
+                            </div>
+                        </div>
+
+                        <label class="campo-check" id="ck-salvar-wrap" hidden>
+                            <input type="checkbox" id="ck-salvar-endereco" checked>
+                            Salvar este endereço na minha conta
+                        </label>
+                    </fieldset>
+
+                    <!-- 2. DATA -->
+                    <fieldset class="cartao-branco bloco-checkout">
+                        <legend>2. Data da entrega</legend>
+
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="ck-data">Dia</label>
+                                <input type="date" id="ck-data" required>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ck-periodo">Período</label>
+                                <select id="ck-periodo" required>
+                                    <option value="">Selecione</option>
+                                    <option value="manha">Manhã (8h às 12h)</option>
+                                    <option value="tarde">Tarde (12h às 18h)</option>
+                                    <option value="noite">Noite (18h às 21h)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- 3. PRESENTE -->
+                    <fieldset class="cartao-branco bloco-checkout">
+                        <legend>3. É para presente? (opcional)</legend>
+
+                        <div class="campo">
+                            <label for="ck-destinatario">Nome de quem vai receber</label>
+                            <input type="text" id="ck-destinatario" maxlength="100" placeholder="Deixe em branco se for para você">
+                        </div>
+
+                        <div class="campo">
+                            <label for="ck-mensagem">Mensagem do cartão</label>
+                            <textarea id="ck-mensagem" maxlength="200" placeholder="Ex.: Feliz aniversário! Com carinho."></textarea>
+                            <small class="contador-mensagem" id="contador-mensagem">0/200</small>
+                        </div>
+                    </fieldset>
+
+                    <!-- 4. PAGAMENTO -->
+                    <fieldset class="cartao-branco bloco-checkout">
+                        <legend>4. Pagamento</legend>
+
+                        <div class="opcoes-pagamento">
+                            <label class="opcao-pagamento">
+                                <input type="radio" name="pagamento" value="pix" checked>
+                                <span class="tag-pagamento">Mais rápido</span>
+                                <span class="icone-pagamento" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+                                        <path d="M12 2.5 21.5 12 12 21.5 2.5 12Z"/>
+                                        <path d="M8.5 12 12 8.5 15.5 12 12 15.5Z" fill="currentColor"/>
+                                    </svg>
+                                </span>
+                                <strong>Pix</strong>
+                                <small>Aprovação na hora</small>
+                                <span class="marcador-pagamento" aria-hidden="true"></span>
+                            </label>
+
+                            <label class="opcao-pagamento">
+                                <input type="radio" name="pagamento" value="cartao">
+                                <span class="icone-pagamento" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                        <rect x="2.5" y="5" width="19" height="14" rx="2.5"/>
+                                        <line x1="2.5" y1="10" x2="21.5" y2="10"/>
+                                        <line x1="6" y1="15" x2="10" y2="15"/>
+                                    </svg>
+                                </span>
+                                <strong>Cartão de crédito</strong>
+                                <small>Até 6x sem juros</small>
+                                <span class="marcador-pagamento" aria-hidden="true"></span>
+                            </label>
+
+                            <label class="opcao-pagamento">
+                                <input type="radio" name="pagamento" value="boleto">
+                                <span class="icone-pagamento" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                        <line x1="4" y1="5" x2="4" y2="19"/>
+                                        <line x1="7" y1="5" x2="7" y2="19"/>
+                                        <line x1="11" y1="5" x2="11" y2="19"/>
+                                        <line x1="14" y1="5" x2="14" y2="19"/>
+                                        <line x1="17" y1="5" x2="17" y2="19"/>
+                                        <line x1="20" y1="5" x2="20" y2="19"/>
+                                    </svg>
+                                </span>
+                                <strong>Boleto</strong>
+                                <small>Vence em 3 dias úteis</small>
+                                <span class="marcador-pagamento" aria-hidden="true"></span>
+                            </label>
+                        </div>
+
+                        <!-- PIX -->
+                        <div class="painel-pagamento" id="painel-pix">
+                            <ul class="lista-vantagens-pix">
+                                <li>⚡ O pagamento é aprovado na hora e a loja já começa a preparar.</li>
+                                <li>📱 Você recebe um QR Code e um código "copia e cola" para usar no app do banco.</li>
+                                <li>⏱️ O código vale por 10 minutos.</li>
+                            </ul>
+                        </div>
+
+                        <!-- CARTÃO -->
+                        <div class="painel-pagamento" id="painel-cartao" hidden>
+                            <div class="layout-cartao">
+
+                                <div class="cartao-preview" id="cartao-preview" aria-hidden="true">
+                                    <div class="cartao-preview-topo">
+                                        <span class="chip"></span>
+                                        <span id="preview-bandeira">CARTÃO</span>
+                                    </div>
+                                    <p class="cartao-preview-numero" id="preview-numero">•••• •••• •••• ••••</p>
+                                    <div class="cartao-preview-rodape">
+                                        <span id="preview-nome">NOME DO TITULAR</span>
+                                        <span id="preview-validade">MM/AA</span>
+                                    </div>
+                                </div>
+
+                                <div class="campos-cartao">
+                                    <div class="campo">
+                                        <label for="ck-cartao-numero">
+                                            Número do cartão
+                                            <span class="bandeira-detectada" id="ck-bandeira" hidden></span>
+                                        </label>
+                                        <input type="text" id="ck-cartao-numero" inputmode="numeric" maxlength="23" autocomplete="cc-number" placeholder="0000 0000 0000 0000">
+                                        <small class="dica-campo">Modo de teste: use 4242 4242 4242 4242. Nunca digite um cartão de verdade.</small>
+                                    </div>
+
+                                    <div class="campo">
+                                        <label for="ck-cartao-nome">Nome impresso no cartão</label>
+                                        <input type="text" id="ck-cartao-nome" autocomplete="cc-name">
+                                    </div>
+
+                                    <div class="linha-campos">
+                                        <div class="campo">
+                                            <label for="ck-cartao-validade">Validade</label>
+                                            <input type="text" id="ck-cartao-validade" inputmode="numeric" maxlength="5" autocomplete="cc-exp" placeholder="MM/AA">
+                                        </div>
+
+                                        <div class="campo">
+                                            <label for="ck-cartao-cvv">CVV</label>
+                                            <input type="text" id="ck-cartao-cvv" inputmode="numeric" maxlength="3" autocomplete="cc-csc" placeholder="123">
+                                        </div>
+                                    </div>
+
+                                    <div class="campo">
+                                        <label for="ck-parcelas">Parcelas</label>
+                                        <select id="ck-parcelas"></select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- BOLETO -->
+                        <div class="painel-pagamento" id="painel-boleto" hidden>
+                            <ul class="lista-vantagens-pix">
+                                <li>🧾 O boleto aparece logo depois que você finalizar o pedido.</li>
+                                <li>📅 Ele vence em 3 dias úteis. A loja prepara depois que o pagamento for confirmado.</li>
+                                <li>🏦 Pague no app do banco, na lotérica ou no caixa eletrônico.</li>
+                            </ul>
+                        </div>
+
+                        <p class="aviso-form">Pagamento simulado: nenhum valor é cobrado de verdade.</p>
+                    </fieldset>
+
+                    <p class="erro-form" id="erro-checkout" role="alert" hidden></p>
+
+                    <button type="submit" class="submit-btn botao-confirmar" id="btn-confirmar-pedido">Finalizar pedido</button>
+
+                    <ul class="selos-seguranca">
+                        <li>🔒 Ambiente seguro</li>
+                        <li>💳 O número do cartão nunca é salvo</li>
+                        <li>🌷 Flores frescas ou o seu dinheiro de volta</li>
+                    </ul>
+                </form>
+            </div>
+
+            <!-- RESUMO DO PEDIDO (classes próprias, começando com "rp-") -->
+            <aside class="resumo-pedido" aria-label="Resumo do pedido">
+
+                <div class="rp-cabecalho">
+                    <h2>Resumo do pedido</h2>
+                    <span class="rp-contador" id="rp-contador"></span>
+                </div>
+
+                <div class="rp-lojas" id="resumo-itens-checkout"></div>
+
+                <form class="rp-cupom" id="form-cupom" novalidate>
+                    <label for="ck-cupom">🏷️ Tem um cupom?</label>
+
+                    <div class="rp-cupom-linha">
+                        <input type="text" id="ck-cupom" autocomplete="off" placeholder="Digite o cupom">
+                        <button type="submit" class="rp-cupom-botao">Aplicar</button>
+                    </div>
+
+                    <p class="rp-cupom-msg" id="msg-cupom" aria-live="polite"></p>
+                    <button type="button" class="rp-cupom-remover" id="btn-remover-cupom" hidden>Remover cupom</button>
+                </form>
+
+                <div class="rp-totais">
+                    <div class="rp-linha">
+                        <span>Produtos</span>
+                        <strong id="ck-subtotal">R$ 0,00</strong>
+                    </div>
+
+                    <div class="rp-linha rp-desconto" id="ck-linha-desconto" hidden>
+                        <span>Desconto</span>
+                        <strong id="ck-desconto">- R$ 0,00</strong>
+                    </div>
+
+                    <div class="rp-linha">
+                        <span>Entrega</span>
+                        <strong id="ck-frete">R$ 0,00</strong>
+                    </div>
+
+                    <div class="rp-linha rp-total">
+                        <span>Total</span>
+                        <strong id="ck-total">R$ 0,00</strong>
+                    </div>
+                </div>
+
+                <p class="rp-aviso" id="ck-aviso-lojas"></p>
+                <p class="rp-seguro">🔒 Pagamento simulado e seguro</p>
+            </aside>
+        </div>
+
+        <!-- TELA DO PIX -->
+        <section id="checkout-pix" class="checkout-pix cartao-branco" hidden>
+            <h1>Pague com Pix</h1>
+
+            <p class="pix-valor">Total: <strong id="pix-total"></strong></p>
+
+            <ol class="passos-pix">
+                <li>Abra o app do seu banco e escolha <strong>Pagar com Pix</strong>.</li>
+                <li>Leia o QR Code abaixo ou cole o código "copia e cola".</li>
+                <li>Confirme o pagamento e volte aqui.</li>
+            </ol>
+
+            <div class="pix-qr" id="pix-qr" role="img" aria-label="QR Code Pix de demonstração"></div>
+
+            <p class="pix-tempo">O código expira em <strong id="pix-timer">10:00</strong></p>
+
+            <div class="campo">
+                <label for="pix-codigo">Pix copia e cola</label>
+                <div class="linha-cupom">
+                    <input type="text" id="pix-codigo" class="campo-pix-codigo" readonly>
+                    <button type="button" class="botao-contorno" id="btn-copiar-pix">Copiar</button>
+                </div>
+            </div>
+
+            <p class="erro-form" id="erro-pix" role="alert" hidden></p>
+
+            <button type="button" class="submit-btn" id="btn-ja-paguei">Já fiz o pagamento</button>
+            <button type="button" class="botao-contorno" id="btn-novo-pix" hidden>Gerar novo código</button>
+            <button type="button" class="link-simples" id="btn-voltar-pix">Voltar e escolher outra forma de pagamento</button>
+
+            <p class="aviso-form">
+                Demonstração: este QR Code não é de verdade. Clique em "Já fiz o pagamento" para simular a aprovação.
+            </p>
+        </section>
+
+        <!-- PEDIDO CONFIRMADO -->
+        <section id="checkout-confirmado" class="checkout-confirmado cartao-branco" hidden>
+            <div class="icone-confirmado" aria-hidden="true">✿</div>
+            <h1>Pedido confirmado!</h1>
+            <p id="confirmado-texto"></p>
+
+            <!-- Aparece só quando o pagamento é por boleto -->
+            <div class="boleto-caixa" id="confirmado-boleto" hidden>
+                <strong>Seu boleto</strong>
+                <div class="boleto-barras" aria-hidden="true"></div>
+                <p class="boleto-linha" id="boleto-linha"></p>
+                <div class="boleto-info">
+                    <span>Valor: <strong id="boleto-valor"></strong></span>
+                    <span>Vencimento: <strong id="boleto-vencimento"></strong></span>
+                </div>
+                <button type="button" class="botao-contorno" id="btn-copiar-boleto">Copiar código do boleto</button>
+                <small class="dica-campo">Demonstração: este boleto não é de verdade.</small>
+            </div>
+
+            <dl class="detalhes-confirmado" id="confirmado-detalhes"></dl>
+
+            <div class="acoes-confirmado">
+                <a href="meus-pedidos.html" class="botao-contorno" id="link-acompanhar">Acompanhar pedido</a>
+                <a href="index.html" class="botao-principal">Voltar à loja</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- TELA DE "PROCESSANDO" -->
+    <div class="processando" id="ck-processando" role="status" aria-live="assertive" hidden>
+        <div class="caixa-processando">
+            <span class="spinner" aria-hidden="true"></span>
+            <p id="ck-processando-texto">Processando pagamento...</p>
+        </div>
+    </div>
+
+    <!-- RODAPÉ: logo, Central de ajuda e redes sociais -->
+    <footer class="footer rodape">
+        <a href="index.html" class="rodape-logo" aria-label="BloomMarket, página inicial">
+            <img src="imagens/logo-bloommarket.png" alt="BloomMarket" class="logo-footer">
+        </a>
+
+        <a href="ajuda.html" class="rodape-ajuda">
+            <span class="rodape-ajuda-icone" aria-hidden="true">?</span>
+            <span class="rodape-ajuda-texto">
+                <strong>Central de ajuda</strong>
+                <small>Pedidos, entregas, trocas e privacidade</small>
+            </span>
+        </a>
+
+        <div class="redes">
+            <a href="mailto:contato@bloommarket.com.br" aria-label="E-mail">
+                <img src="imagens/icone-email.png" alt="E-mail">
+            </a>
+            <a href="https://wa.me/551140000000" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <img src="imagens/icone-whatsapp.png" alt="WhatsApp">
+            </a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+                <img src="imagens/icone-instagram.png" alt="Instagram">
+            </a>
+            <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <img src="imagens/icone-linkedin.png" alt="LinkedIn">
+            </a>
+        </div>
+    </footer>
+
+</body>
+</html>

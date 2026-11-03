@@ -1,0 +1,1277 @@
+/* ==================================================
+BLOOMMARKET — VITRINE NOVA (dados do banco)
+Filtros, cartões, home, página do produto e boleto.
+O script.js coloca este arquivo em todas as páginas.
+================================================== */
+
+/* ---------- Mensagens de carregando e de erro ---------- */
+
+.carregando-produto {
+    grid-column: 1 / -1;
+    padding: 40px 0;
+    color: var(--cinza, #777);
+    text-align: center;
+}
+
+.erro-servidor {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 6px;
+    padding: 20px;
+    background: #fff1f2;
+    border: 1px solid #f7c4ca;
+    border-radius: 14px;
+    color: #8a0f1a;
+    text-align: center;
+}
+
+.lista-vazia {
+    grid-column: 1 / -1;
+}
+
+/* ---------- Cartão de produto ---------- */
+
+.cartao-produto .detalhe-variacao {
+    margin: -4px 0 4px;
+    color: #555555;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.cartao-produto .vendido-por .link-loja {
+    font-weight: 600;
+}
+
+/* ---------- Filtros da vitrine ---------- */
+
+.barra-filtros select,
+.campo-ordenar select {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--branco, #fff);
+    border: 1.5px solid #cccccc;
+    border-radius: 12px;
+    color: #222222;
+    font: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+.barra-filtros select:focus {
+    border-color: var(--vermelho, #e30620);
+}
+
+.barra-filtros .grupo-filtro {
+    display: grid;
+    gap: 8px;
+}
+
+.botao-limpar-filtros {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px;
+    background: transparent;
+    border: 1.5px solid #cccccc;
+    border-radius: 25px;
+    color: #444444;
+    font-weight: 600;
+}
+
+.botao-limpar-filtros:hover {
+    border-color: var(--vermelho, #e30620);
+    color: var(--vermelho, #e30620);
+}
+
+.aviso-regiao {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #fff8e1;
+    border-radius: 10px;
+    color: #6b5200;
+    font-size: 14px;
+}
+
+/* ---------- Home: escolha sua flor ---------- */
+
+.grid-flores-home {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+}
+
+.cartao-flor {
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+    padding: 18px 10px;
+    background: var(--branco, #fff);
+    border-radius: 18px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    color: #222222;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cartao-flor:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(227, 6, 32, 0.14);
+}
+
+.cartao-flor .emoji-flor {
+    font-size: 40px;
+    line-height: 1.2;
+}
+
+.cartao-flor small {
+    color: var(--vermelho, #e30620);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ---------- Home: lojas parceiras ---------- */
+
+.grid-lojas-home {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+}
+
+.cartao-loja-home {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: var(--branco, #fff);
+    border-radius: 18px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    color: #222222;
+    transition: transform 0.2s;
+}
+
+.cartao-loja-home:hover {
+    transform: translateY(-3px);
+}
+
+.avatar-loja-mini {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--vermelho, #e30620), #ff6b7d);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.info-loja-home {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+}
+
+.info-loja-home small {
+    color: #666666;
+    font-size: 12px;
+}
+
+/* ---------- Página do produto: escolher cor e tamanho ---------- */
+
+.escolha-variacao {
+    display: grid;
+    gap: 8px;
+}
+
+.escolha-variacao h3 {
+    font-size: 14px;
+}
+
+.opcoes-variacao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.opcao-variacao {
+    padding: 8px 14px;
+    background: var(--branco, #fff);
+    border: 1.5px solid #dddddd;
+    border-radius: 20px;
+    color: #333333;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.opcao-variacao:hover {
+    border-color: var(--vermelho, #e30620);
+}
+
+.opcao-variacao.ativa {
+    background: var(--vermelho, #e30620);
+    border-color: var(--vermelho, #e30620);
+    color: #ffffff;
+}
+
+.opcao-variacao:disabled {
+    opacity: 0.4;
+    text-decoration: line-through;
+    cursor: not-allowed;
+}
+
+/* ---------- Página de avaliações ---------- */
+
+.passos-avaliar {
+    display: grid;
+    gap: 6px;
+    margin: 12px 0 18px 20px;
+    color: #444444;
+}
+
+.resumo-avaliacoes {
+    margin-bottom: 14px;
+    font-size: 15px;
+}
+
+.cartao-avaliacao .selo-verificada {
+    display: inline-block;
+    margin-top: 8px;
+}
+
+/* ---------- Boleto (checkout) ---------- */
+
+.checkout-boleto {
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.boleto-caixa {
+    display: grid;
+    gap: 12px;
+    margin: 18px 0;
+    padding: 20px;
+    background: #fafaf5;
+    border: 1.5px dashed #cfcfbf;
+    border-radius: 16px;
+    text-align: left;
+}
+
+.boleto-barras {
+    height: 56px;
+    background: repeating-linear-gradient(90deg,
+        #111 0 2px, transparent 2px 4px, #111 4px 5px, transparent 5px 8px,
+        #111 8px 11px, transparent 11px 12px, #111 12px 13px, transparent 13px 16px);
+    border-radius: 4px;
+}
+
+.boleto-linha {
+    font-family: "Courier New", monospace;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    word-break: break-all;
+}
+
+.boleto-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    color: #444444;
+    font-size: 14px;
+}
+
+/* ==================================================
+FAVORITOS (coração nos cartões e página favoritos.html)
+================================================== */
+
+.cartao-produto {
+    position: relative;
+}
+
+.botao-favorito {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.92);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    color: #555555;
+    cursor: pointer;
+    transition: transform 0.15s, color 0.15s;
+}
+
+.botao-favorito:hover {
+    color: var(--vermelho, #e30620);
+    transform: scale(1.08);
+}
+
+.botao-favorito.favoritado {
+    color: var(--vermelho, #e30620);
+}
+
+.botao-favorito.favoritado svg {
+    animation: pulsar-coracao 0.3s ease;
+}
+
+@keyframes pulsar-coracao {
+    50% { transform: scale(1.25); }
+}
+
+/* Botão grande da página do produto */
+.botao-favorito-grande {
+    position: static;
+    display: inline-flex;
+    gap: 8px;
+    width: auto;
+    height: auto;
+    padding: 10px 18px;
+    border: 1.5px solid #dddddd;
+    border-radius: 25px;
+    box-shadow: none;
+    font-weight: 600;
+}
+
+.botao-favorito-grande.favoritado {
+    border-color: var(--vermelho, #e30620);
+    background: #fff1f2;
+}
+
+/* Atalho no topo do site */
+.link-favoritos-topo {
+    white-space: nowrap;
+}
+
+/* Página de favoritos */
+.pagina-favoritos {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+}
+
+.fav-topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.fav-topo h1 {
+    margin: 4px 0;
+}
+
+.fav-contador {
+    color: #666666;
+}
+
+.fav-vazio {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    max-width: 520px;
+    margin: 20px auto;
+    padding: 40px 24px;
+    text-align: center;
+}
+
+.fav-vazio-icone {
+    color: var(--vermelho, #e30620);
+    font-size: 54px;
+    line-height: 1;
+}
+
+/* ==================================================
+MEUS PEDIDOS (meus-pedidos.html)
+================================================== */
+
+.mp-pagina {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+}
+
+.mp-topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.mp-topo h1 {
+    margin: 4px 0;
+}
+
+.mp-saudacao {
+    color: #666666;
+}
+
+.mp-convite {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    padding: 40px 24px;
+    text-align: center;
+}
+
+.mp-convite-icone,
+.mp-vazio-icone {
+    font-size: 48px;
+    line-height: 1;
+}
+
+/* ---------- Resumo ---------- */
+
+.mp-resumo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.mp-resumo-cartao {
+    display: grid;
+    gap: 2px;
+    padding: 16px 18px;
+    background: var(--branco, #fff);
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.mp-resumo-cartao strong {
+    font-size: 22px;
+}
+
+.mp-resumo-cartao span:last-child {
+    color: #666666;
+    font-size: 13px;
+}
+
+.mp-resumo-icone {
+    font-size: 20px;
+}
+
+/* ---------- Abas e busca ---------- */
+
+.mp-barra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.mp-abas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.mp-aba {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--branco, #fff);
+    border: 1.5px solid #dddddd;
+    border-radius: 25px;
+    color: #333333;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.mp-aba.ativa {
+    background: var(--vermelho, #e30620);
+    border-color: var(--vermelho, #e30620);
+    color: #ffffff;
+}
+
+.mp-aba-numero {
+    min-width: 22px;
+    padding: 1px 7px;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.mp-aba.ativa .mp-aba-numero {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.mp-busca input {
+    width: 260px;
+    max-width: 100%;
+    padding: 9px 14px;
+    border: 1.5px solid #dddddd;
+    border-radius: 25px;
+    font: inherit;
+    font-size: 14px;
+}
+
+.mp-lista {
+    display: grid;
+    gap: 18px;
+}
+
+.mp-nada {
+    padding: 30px;
+    color: #666666;
+    text-align: center;
+}
+
+.mp-vazio {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    padding: 40px 24px;
+    text-align: center;
+}
+
+/* ---------- Cartão do pedido ---------- */
+
+.mp-pedido {
+    display: grid;
+    gap: 16px;
+    padding: 20px 22px;
+    background: var(--branco, #fff);
+    border-left: 5px solid #cccccc;
+    border-radius: 18px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.mp-status-novo { border-left-color: #f59e0b; }
+.mp-status-preparo { border-left-color: #8b5cf6; }
+.mp-status-entrega { border-left-color: #3b82f6; }
+.mp-status-entregue { border-left-color: #16a34a; }
+.mp-status-cancelado { border-left-color: #9ca3af; opacity: 0.9; }
+
+.mp-pedido-topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.mp-loja {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mp-avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--vermelho, #e30620), #ff6b7d);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.mp-loja-nome {
+    display: block;
+    color: #222222;
+    font-weight: 700;
+}
+
+.mp-loja small {
+    color: #777777;
+    font-size: 13px;
+}
+
+.mp-topo-direita {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mp-total {
+    font-size: 20px;
+}
+
+.mp-selo {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.mp-selo-novo { background: #fef3c7; color: #92400e; }
+.mp-selo-preparo { background: #ede9fe; color: #5b21b6; }
+.mp-selo-entrega { background: #dbeafe; color: #1e40af; }
+.mp-selo-entregue { background: #dcfce7; color: #166534; }
+.mp-selo-cancelado { background: #f3f4f6; color: #4b5563; }
+
+/* ---------- Linha do andamento ---------- */
+
+.mp-progresso {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mp-etapa {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    text-align: center;
+}
+
+/* Linha entre as bolinhas */
+.mp-etapa:not(:first-child)::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    right: 50%;
+    left: -50%;
+    z-index: 0;
+    height: 4px;
+    background: #e5e7eb;
+}
+
+.mp-etapa.feita::before,
+.mp-etapa.atual::before {
+    background: #16a34a !important;
+}
+
+.mp-bolinha {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    background: #f3f4f6;
+    border: 3px solid #e5e7eb;
+    border-radius: 50%;
+    font-size: 16px;
+}
+
+.mp-etapa.feita .mp-bolinha {
+    background: #16a34a;
+    border-color: #16a34a;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.mp-etapa.atual .mp-bolinha {
+    background: #ffffff;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 5px rgba(22, 163, 74, 0.15);
+}
+
+.mp-etapa-nome {
+    color: #9ca3af;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.mp-etapa.feita .mp-etapa-nome,
+.mp-etapa.atual .mp-etapa-nome {
+    color: #222222;
+}
+
+.mp-previsao {
+    margin: -4px 0 0;
+    color: #555555;
+    font-size: 14px;
+    text-align: center;
+}
+
+.mp-cancelado {
+    padding: 12px 16px;
+    background: #f3f4f6;
+    border-radius: 12px;
+    color: #4b5563;
+    font-size: 14px;
+}
+
+/* ---------- Flores do pedido ---------- */
+
+.mp-itens {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mp-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: #fafaf5;
+    border-radius: 12px;
+}
+
+.mp-item img {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.mp-item-texto {
+    display: grid;
+    flex: 1;
+    min-width: 0;
+}
+
+.mp-item-texto small {
+    color: #666666;
+}
+
+.mp-item-preco {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* ---------- Detalhes ---------- */
+
+.mp-detalhes summary {
+    color: var(--vermelho, #e30620);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.mp-info-grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.mp-info {
+    display: grid;
+    gap: 2px;
+    font-size: 14px;
+}
+
+.mp-info p {
+    margin: 0;
+    color: #444444;
+}
+
+.mp-info-titulo {
+    margin-bottom: 4px;
+    font-weight: 700;
+}
+
+.mp-valores {
+    display: grid;
+    gap: 6px;
+    max-width: 320px;
+    margin: 16px 0 0 auto;
+    font-size: 14px;
+}
+
+.mp-valor {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.mp-valor-desconto {
+    color: #16a34a;
+}
+
+.mp-valor-total {
+    padding-top: 6px;
+    border-top: 1px solid #e5e7eb;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+/* ---------- Ações ---------- */
+
+.mp-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.mp-botao {
+    padding: 9px 16px;
+    background: var(--branco, #fff);
+    border: 1.5px solid #cccccc;
+    border-radius: 25px;
+    color: #333333;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.mp-botao:hover {
+    border-color: var(--vermelho, #e30620);
+    color: var(--vermelho, #e30620);
+}
+
+.mp-botao-destaque {
+    background: var(--vermelho, #e30620);
+    border-color: var(--vermelho, #e30620);
+    color: #ffffff;
+}
+
+.mp-botao-destaque:hover {
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+.mp-botao-perigo:hover {
+    background: #fff1f2;
+}
+
+.mp-chip-avaliado {
+    color: #166534;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.mp-avaliar {
+    display: grid;
+    gap: 10px;
+    padding: 16px;
+    background: #fafaf5;
+    border-radius: 14px;
+}
+
+.mp-avaliar textarea {
+    min-height: 80px;
+    padding: 10px 12px;
+    border: 1.5px solid #dddddd;
+    border-radius: 12px;
+    font: inherit;
+    resize: vertical;
+}
+
+/* ---------- Celular ---------- */
+
+@media (max-width: 600px) {
+    .mp-pedido {
+        padding: 16px;
+    }
+
+    .mp-etapa-nome {
+        font-size: 11px;
+    }
+
+    .mp-bolinha {
+        width: 34px;
+        height: 34px;
+        font-size: 14px;
+    }
+
+    .mp-etapa:not(:first-child)::before {
+        top: 15px;
+    }
+
+    .mp-busca,
+    .mp-busca input {
+        width: 100%;
+    }
+}
+
+/* ==================================================
+MENU DO TOPO: TUDO NUMA LINHA SÓ
+================================================== */
+
+.header {
+    gap: 20px;
+}
+
+.header .menu {
+    flex-wrap: nowrap;
+    gap: 24px;
+    margin-left: 10px;
+}
+
+.header .menu a {
+    white-space: nowrap;
+}
+
+.header .menu .link-vender {
+    padding: 6px 14px;
+    font-size: 14px;
+}
+
+.header .login {
+    flex-shrink: 0;
+    gap: 10px;
+}
+
+/* Telas médias: menu mais junto e botões só com ícone e número */
+@media (max-width: 1400px) {
+    .header .menu {
+        gap: 18px;
+    }
+
+    .header .menu a {
+        font-size: 14px;
+    }
+
+    .header .logo img {
+        width: 160px;
+    }
+
+    .header .texto-botao-topo {
+        display: none;
+    }
+
+    .header .botao-topo {
+        padding: 0 14px;
+    }
+}
+
+@media (max-width: 1150px) {
+    .header .menu {
+        gap: 14px;
+    }
+
+    .header .menu a {
+        font-size: 13px;
+    }
+
+    .header .menu .link-vender {
+        padding: 5px 10px;
+        font-size: 13px;
+    }
+
+    .header .texto-conta-topo {
+        display: none;
+    }
+
+    .header .seta-conta {
+        display: none;
+    }
+}
+
+/* Telas estreitas: logo e botões em cima, menu numa linha embaixo */
+@media (max-width: 1100px) {
+    .header {
+        flex-wrap: wrap;
+        row-gap: 10px;
+    }
+
+    .header .menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        order: 3;
+        width: 100%;
+        margin-left: 0;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.25);
+    }
+}
+
+/* ==================================================
+TOPO DO SITE: FAVORITOS, CARRINHO E CONTA
+================================================== */
+
+.botao-topo {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.botao-topo svg {
+    flex-shrink: 0;
+}
+
+/* Bolinha só com o número (o #contador-carrinho vence o CSS antigo do style.css) */
+.numero-topo,
+#contador-carrinho.numero-topo {
+    display: inline-grid;
+    place-items: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    background: var(--vermelho, #e30620);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    margin-left: 0;
+}
+
+.numero-topo[hidden],
+#contador-carrinho.numero-topo[hidden] {
+    display: none;
+}
+
+/* Quando o botão já é vermelho, a bolinha fica branca */
+.entrar-btn:hover .numero-topo,
+.botao-topo.ativo .numero-topo {
+    background: #ffffff;
+    color: var(--vermelho, #e30620);
+}
+
+/* Botão da conta: "Olá, Ana" com a inicial */
+.botao-conta-topo.logado {
+    gap: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 6px;
+}
+
+.avatar-topo {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--vermelho, #e30620), #ff6b7d);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.texto-conta-topo {
+    display: grid;
+    line-height: 1.15;
+    text-align: left;
+}
+
+.texto-conta-topo small {
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.75;
+}
+
+.texto-conta-topo strong {
+    font-size: 14px;
+}
+
+.seta-conta {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+/* Celular: só os ícones e os números */
+@media (max-width: 700px) {
+    .texto-botao-topo {
+        display: none;
+    }
+
+    .texto-conta-topo small {
+        display: none;
+    }
+}
+
+/* ==================================================
+TELA "MINHA CONTA" (dentro da janela de login)
+Tudo começa com #containerConta para nenhum outro CSS apertar.
+================================================== */
+
+#containerConta {
+    width: 390px;
+    padding: 36px 28px 28px;
+    text-align: left;
+}
+
+/* Cabeçalho: inicial, nome e e-mail */
+#containerConta .conta-cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 24px;
+    padding: 0 30px 22px 0;
+    border-bottom: 1px solid #ececec;
+}
+
+#containerConta .conta-avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 58px;
+    height: 58px;
+    background: linear-gradient(135deg, var(--vermelho, #e30620), #ff6b7d);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+#containerConta .conta-quem {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+}
+
+#containerConta .conta-quem strong {
+    overflow: hidden;
+    color: #222222;
+    font-size: 18px;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#containerConta .conta-quem small {
+    overflow: hidden;
+    color: #777777;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Menu: Meus pedidos e Meus favoritos */
+#containerConta .conta-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0 0 18px;
+}
+
+#containerConta .conta-opcao {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+    padding: 16px 18px;
+    background: #ffffff;
+    border: 1.5px solid #ececec;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    color: #222222;
+    line-height: 1.3;
+    text-align: left;
+    transition: border-color 0.15s, transform 0.15s;
+}
+
+#containerConta .conta-opcao:hover {
+    border-color: var(--vermelho, #e30620);
+    transform: translateX(3px);
+}
+
+#containerConta .conta-opcao-icone {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: #fff1f2;
+    border-radius: 12px;
+    color: var(--vermelho, #e30620);
+    font-size: 20px;
+}
+
+#containerConta .conta-opcao-texto {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+#containerConta .conta-opcao-texto strong {
+    font-size: 15px;
+}
+
+#containerConta .conta-opcao-texto small {
+    color: #777777;
+    font-size: 12px;
+}
+
+#containerConta .conta-opcao-seta {
+    flex-shrink: 0;
+    color: #bbbbbb;
+    font-size: 24px;
+}
+
+/* Meus dados (abre e fecha) */
+#containerConta .conta-dados {
+    margin: 0 0 24px;
+    padding: 14px 18px;
+    background: #ffffff;
+    border: 1.5px solid #ececec;
+    border-radius: 16px;
+}
+
+#containerConta .conta-dados summary {
+    color: #222222;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#containerConta .conta-dados .dados-conta {
+    display: grid;
+    gap: 12px;
+    margin: 14px 0 10px;
+}
+
+#containerConta .conta-dados .aviso-form {
+    margin: 0;
+    font-size: 12px;
+}
+
+/* Sair da conta: separado no fim, com espaço em cima */
+#containerConta .conta-sair {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin: 0;
+    padding: 13px;
+    background: transparent;
+    border: 1.5px solid #f3c2c8;
+    border-radius: 25px;
+    color: var(--vermelho, #e30620);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#containerConta .conta-sair:hover {
+    background: #fff1f2;
+}
+
+/* Celular */
+@media (max-width: 480px) {
+    #containerConta {
+        padding: 32px 18px 22px;
+    }
+
+    #containerConta .conta-opcao {
+        padding: 14px;
+    }
+}
+
+/* ==================================================
+FLORES CENTRALIZADAS NA PÁGINA INICIAL
+================================================== */
+
+.grid-produtos {
+    justify-content: center;
+}

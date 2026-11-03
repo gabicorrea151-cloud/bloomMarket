@@ -1,0 +1,346 @@
+/* ==================================================
+BLOOMMARKET — PAINEL DO ADMINISTRADOR
+Carregue DEPOIS do style.css e do fornecedor.css
+================================================== */
+
+.tag-admin {
+    background: #ffb800;
+    color: #111111;
+}
+
+.pagina-admin {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+}
+
+/* ---------- Login ---------- */
+
+.acesso-admin {
+    display: grid;
+    gap: 14px;
+    max-width: 440px;
+    margin: 30px auto;
+    text-align: center;
+}
+
+.acesso-admin h1 {
+    font-size: clamp(26px, 4vw, 32px);
+}
+
+.acesso-admin > p {
+    color: #555555;
+}
+
+.acesso-admin .form-forn {
+    text-align: left;
+}
+
+.acesso-admin .selo {
+    justify-self: center;
+}
+
+.dica-acesso {
+    padding: 10px 12px;
+    background: var(--creme);
+    border-radius: 10px;
+    color: #444444;
+    font-size: 13px;
+}
+
+/* ---------- Topo de cada seção ---------- */
+
+.topo-secao-admin {
+    margin-bottom: 22px;
+}
+
+.topo-secao-admin h1 {
+    font-size: clamp(26px, 4vw, 32px);
+}
+
+.topo-secao-admin p {
+    color: var(--cinza);
+}
+
+/* ---------- Gráficos ---------- */
+
+.layout-graficos {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.layout-graficos h2 {
+    margin-bottom: 18px;
+    font-size: 18px;
+}
+
+.grafico-colunas {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    height: 220px;
+    padding-top: 10px;
+}
+
+.coluna {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    min-width: 0;
+}
+
+.coluna-barra {
+    width: 100%;
+    max-width: 44px;
+    min-height: 2px;
+    background: var(--vermelho);
+    border-radius: 6px 6px 0 0;
+    transition: height 0.4s;
+}
+
+.coluna-valor {
+    color: #333333;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.coluna-rotulo {
+    color: var(--cinza);
+    font-size: 12px;
+}
+
+.grafico-barras {
+    display: grid;
+    gap: 14px;
+}
+
+.barra-linha {
+    display: grid;
+    grid-template-columns: 140px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    font-size: 14px;
+}
+
+.barra-trilho {
+    height: 14px;
+    background: #eeeeee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.barra-preenchida {
+    height: 100%;
+    background: var(--vermelho);
+    border-radius: 10px;
+    transition: width 0.4s;
+}
+
+.barra-valor {
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.titulo-ranking {
+    margin-top: 26px;
+}
+
+.ranking-lojas {
+    display: grid;
+    gap: 10px;
+    list-style: none;
+}
+
+.ranking-lojas li {
+    display: grid;
+    grid-template-columns: 34px 1fr auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    background: var(--creme);
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.ranking-lojas li.lista-vazia {
+    display: block;
+    background: none;
+}
+
+.posicao-ranking {
+    color: var(--vermelho);
+    font-weight: 800;
+}
+
+.nome-ranking {
+    overflow-wrap: anywhere;
+}
+
+/* ---------- Filtros e listas ---------- */
+
+.filtros-admin {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.filtros-admin input,
+.filtros-admin select {
+    flex: 1 1 200px;
+    padding: 10px 14px;
+    background: var(--branco);
+    border: 1.5px solid #cccccc;
+    border-radius: 20px;
+    outline: none;
+}
+
+.filtros-admin input:focus,
+.filtros-admin select:focus {
+    border-color: var(--vermelho);
+}
+
+.lista-admin {
+    display: grid;
+    gap: 12px;
+}
+
+.item-admin {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    align-items: center;
+    padding: 16px 18px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+}
+
+.info-item-admin {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.titulo-item-admin {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.titulo-item-admin h3 {
+    font-size: 16px;
+}
+
+.numeros-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    color: var(--cinza);
+    font-size: 13px;
+}
+
+.numeros-item strong {
+    color: #111111;
+}
+
+.itens-resumidos {
+    color: #444444;
+    font-size: 13px;
+}
+
+.estrelas-admin {
+    color: #ffb800;
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+.comentario-admin {
+    color: #444444;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* ---------- Dados ---------- */
+
+.grid-dados {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+}
+
+.caixa-dados {
+    display: grid;
+    gap: 14px;
+}
+
+.caixa-dados h2 {
+    font-size: 20px;
+}
+
+.caixa-dados p {
+    color: #444444;
+    line-height: 1.6;
+}
+
+.lista-acessos {
+    display: grid;
+    gap: 6px;
+    padding: 12px 14px 12px 30px;
+    background: var(--creme);
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.zona-perigo {
+    border: 2px solid rgba(227, 6, 32, 0.35);
+}
+
+.botao-perigo {
+    padding: 12px;
+    background: var(--vermelho-escuro);
+    border: none;
+    border-radius: 25px;
+    color: var(--branco);
+    font-weight: 700;
+}
+
+.botao-perigo:hover {
+    background: #9e0014;
+}
+
+/* ---------- Responsividade ---------- */
+
+@media (max-width: 900px) {
+    .layout-graficos,
+    .grid-dados {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .item-admin {
+        grid-template-columns: 1fr;
+    }
+
+    .barra-linha {
+        grid-template-columns: 1fr auto;
+    }
+
+    .barra-trilho {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .coluna-valor {
+        display: none;
+    }
+}
