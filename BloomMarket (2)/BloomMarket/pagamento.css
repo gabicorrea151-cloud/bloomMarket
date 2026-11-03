@@ -1,0 +1,792 @@
+/* ==================================================
+BLOOMMARKET — CHECKOUT: LAYOUT, RESUMO E PAGAMENTO
+Carregue DEPOIS do fornecedor.css
+================================================== */
+
+/* ==================================================
+LAYOUT: FORMULÁRIO À ESQUERDA, RESUMO À DIREITA
+================================================== */
+
+.layout-checkout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 28px;
+    align-items: start;
+}
+
+/* As duas colunas podem encolher (sem isso, o conteúdo "vaza" para fora) */
+.layout-checkout > * {
+    min-width: 0;
+}
+
+/* ==================================================
+RESUMO DO PEDIDO (classes próprias: rp-...)
+================================================== */
+
+.resumo-pedido {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    width: 100%;
+    min-width: 0;
+    padding: 22px;
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Tudo dentro do resumo cabe na largura dele */
+.resumo-pedido > *,
+.resumo-pedido .rp-loja,
+.resumo-pedido .rp-cupom {
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* No computador, o resumo acompanha a rolagem */
+@media (min-width: 901px) {
+    .resumo-pedido {
+        position: sticky;
+        top: 20px;
+    }
+}
+
+.resumo-pedido [hidden] {
+    display: none !important;
+}
+
+.resumo-pedido h2,
+.resumo-pedido p,
+.resumo-pedido ul {
+    margin: 0;
+}
+
+/* ---------- Topo ---------- */
+
+.rp-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--borda);
+}
+
+.rp-cabecalho h2 {
+    font-size: 20px;
+}
+
+.rp-contador {
+    padding: 3px 10px;
+    background: var(--creme);
+    border-radius: 20px;
+    color: #555555;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* ---------- Lojas e produtos ---------- */
+
+.rp-lojas {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    max-height: 380px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.resumo-pedido .rp-loja {
+    display: block;
+    padding: 14px;
+    background: #fafaf5;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+}
+
+.resumo-pedido .rp-loja-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.rp-loja-nome {
+    min-width: 0;
+    color: var(--vermelho);
+    font-size: 14px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.rp-loja-nome::before {
+    content: "🌷 ";
+}
+
+.rp-loja-qtd {
+    flex-shrink: 0;
+    color: var(--cinza);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.resumo-pedido .rp-itens {
+    display: grid;
+    gap: 8px;
+    padding: 0;
+    list-style: none;
+}
+
+.resumo-pedido .rp-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    color: #333333;
+    font-size: 14px;
+}
+
+.resumo-pedido .rp-qtd {
+    min-width: 32px;
+    padding: 1px 6px;
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.resumo-pedido .rp-nome {
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.resumo-pedido .rp-preco {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.resumo-pedido .rp-entrega {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #dcdccc;
+    color: #555555;
+    font-size: 13px;
+}
+
+.rp-gratis {
+    padding: 1px 10px;
+    background: #e5f6ea;
+    border-radius: 20px;
+    color: #1d7a3a;
+    font-weight: 700;
+}
+
+.rp-valor-entrega {
+    color: #333333;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* Barrinha da entrega grátis */
+.resumo-pedido .rp-frete-gratis {
+    margin-top: 10px;
+}
+
+.rp-trilho {
+    height: 6px;
+    overflow: hidden;
+    background: #eeeeee;
+    border-radius: 10px;
+}
+
+.rp-progresso {
+    height: 100%;
+    background: linear-gradient(90deg, #f5b400, #1d7a3a);
+    border-radius: 10px;
+}
+
+.resumo-pedido .rp-frete-gratis p {
+    margin-top: 6px;
+    color: #7a5a00;
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- Cupom ---------- */
+
+.resumo-pedido .rp-cupom {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    padding: 14px;
+    border: 1.5px dashed #d6d6c6;
+    border-radius: 14px;
+}
+
+.rp-cupom label {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.rp-cupom-linha {
+    display: flex;
+    gap: 8px;
+    min-width: 0;
+}
+
+.resumo-pedido .rp-cupom-linha input {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+    margin: 0;
+    padding: 0 14px;
+    background: var(--branco);
+    border: 1.5px solid #cccccc;
+    border-radius: 25px;
+    outline: none;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
+.resumo-pedido .rp-cupom-linha input::placeholder {
+    text-transform: none;
+}
+
+.resumo-pedido .rp-cupom-linha input:focus {
+    border-color: var(--vermelho);
+}
+
+.resumo-pedido .rp-cupom-linha input:disabled {
+    background: #e5f6ea;
+    border-color: #1d7a3a;
+    color: #1d7a3a;
+    font-weight: 700;
+}
+
+.rp-cupom-botao {
+    flex: 0 0 auto;
+    height: 44px;
+    padding: 0 18px;
+    background: #111111;
+    border: none;
+    border-radius: 25px;
+    color: var(--branco);
+    font-size: 14px;
+    font-weight: 700;
+    transition: background 0.2s;
+}
+
+.rp-cupom-botao:hover {
+    background: var(--vermelho);
+}
+
+.rp-cupom-msg {
+    color: #1d7a3a;
+    font-size: 13px;
+}
+
+.rp-cupom-msg.erro {
+    color: var(--vermelho-escuro);
+}
+
+.rp-cupom-msg:empty {
+    display: none;
+}
+
+.rp-cupom-remover {
+    justify-self: start;
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--vermelho);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* ---------- Totais ---------- */
+
+.rp-totais {
+    display: grid;
+    gap: 10px;
+}
+
+.rp-linha {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    color: #444444;
+    font-size: 15px;
+}
+
+.rp-linha strong {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.rp-desconto strong {
+    color: #1d7a3a;
+}
+
+.rp-total {
+    margin-top: 4px;
+    padding-top: 14px;
+    border-top: 2px solid #111111;
+    color: #111111;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.rp-total strong {
+    color: var(--vermelho);
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.rp-aviso {
+    padding: 10px 12px;
+    background: var(--creme);
+    border-radius: 10px;
+    color: #444444;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.rp-aviso:empty {
+    display: none;
+}
+
+.rp-seguro {
+    color: var(--cinza);
+    font-size: 12px;
+    text-align: center;
+}
+
+/* ==================================================
+CARTÕES DAS FORMAS DE PAGAMENTO
+================================================== */
+
+.bloco-checkout .opcoes-pagamento {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.bloco-checkout .opcao-pagamento {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+    padding: 20px 12px 16px;
+    background: var(--branco);
+    border: 2px solid #e2e2e2;
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.bloco-checkout .opcao-pagamento:hover {
+    border-color: rgba(227, 6, 32, 0.45);
+    transform: translateY(-2px);
+}
+
+.bloco-checkout .opcao-pagamento.selecionada {
+    border-color: var(--vermelho);
+    background: #fff7f8;
+    box-shadow: 0 6px 18px rgba(227, 6, 32, 0.14);
+}
+
+/* O botão de rádio fica invisível, mas continua funcionando no teclado */
+.bloco-checkout .opcao-pagamento input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+}
+
+.bloco-checkout .opcao-pagamento:focus-within {
+    outline: 2px solid var(--vermelho);
+    outline-offset: 3px;
+}
+
+.icone-pagamento {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 6px;
+    background: var(--creme);
+    border-radius: 14px;
+    color: #333333;
+    transition: background 0.2s, color 0.2s;
+}
+
+.icone-pagamento svg {
+    width: 26px;
+    height: 26px;
+}
+
+.opcao-pagamento.selecionada .icone-pagamento {
+    background: var(--vermelho);
+    color: var(--branco);
+}
+
+.bloco-checkout .opcao-pagamento strong {
+    font-size: 15px;
+}
+
+.bloco-checkout .opcao-pagamento small {
+    color: var(--cinza);
+    font-size: 12px;
+}
+
+/* Bolinha de "selecionado" no canto */
+.marcador-pagamento {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #cccccc;
+    border-radius: 50%;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.opcao-pagamento.selecionada .marcador-pagamento {
+    border-color: var(--vermelho);
+    background: var(--vermelho) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") no-repeat center / 12px;
+}
+
+.tag-pagamento {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 10px;
+    background: #1d7a3a;
+    border-radius: 20px;
+    color: var(--branco);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* ==================================================
+PAINÉIS DE CADA FORMA DE PAGAMENTO
+================================================== */
+
+.bloco-checkout .painel-pagamento {
+    padding: 20px;
+    background: #fafaf5;
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    animation: aparecer-painel 0.25s ease;
+}
+
+@keyframes aparecer-painel {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+}
+
+.lista-vantagens-pix {
+    display: grid;
+    gap: 8px;
+    color: #333333;
+    font-size: 14px;
+    list-style: none;
+}
+
+/* ---------- Prévia do cartão ---------- */
+
+.layout-cartao {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.cartao-preview {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    aspect-ratio: 1.586;
+    padding: 20px 22px;
+    background: linear-gradient(135deg, #2b2b2b, #5a5a5a);
+    border-radius: 18px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+    color: var(--branco);
+    transition: background 0.4s;
+}
+
+.cartao-preview[data-bandeira="visa"] {
+    background: linear-gradient(135deg, #1a1f71, #3b5bdb);
+}
+
+.cartao-preview[data-bandeira="mastercard"] {
+    background: linear-gradient(135deg, #1c1c1c, #b3122e);
+}
+
+.cartao-preview[data-bandeira="elo"] {
+    background: linear-gradient(135deg, #0f172a, #0ea5e9);
+}
+
+.cartao-preview[data-bandeira="amex"] {
+    background: linear-gradient(135deg, #0b6e99, #38bdf8);
+}
+
+.cartao-preview[data-bandeira="hipercard"] {
+    background: linear-gradient(135deg, #7a0c16, #e30620);
+}
+
+.cartao-preview-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.cartao-preview .chip {
+    width: 42px;
+    height: 32px;
+    background: linear-gradient(135deg, #f5d77a, #c9a227);
+    border-radius: 7px;
+}
+
+.cartao-preview-numero {
+    font-family: "Courier New", monospace;
+    font-size: clamp(16px, 2.4vw, 20px);
+    font-weight: 700;
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+.cartao-preview-rodape {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.cartao-preview-rodape span:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bandeira-detectada {
+    margin-left: 8px;
+    padding: 2px 8px;
+    background: var(--vermelho);
+    border-radius: 12px;
+    color: var(--branco);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.bloco-checkout .dica-campo {
+    display: block;
+    margin-top: 4px;
+    color: var(--cinza);
+    font-size: 12px;
+}
+
+/* ==================================================
+BOTÃO FINAL E SELOS DE SEGURANÇA
+================================================== */
+
+.botao-confirmar {
+    min-height: 56px;
+    font-size: 17px;
+    box-shadow: 0 8px 20px rgba(227, 6, 32, 0.25);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.botao-confirmar::before {
+    content: "🔒 ";
+}
+
+.botao-confirmar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(227, 6, 32, 0.3);
+}
+
+.selos-seguranca {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 18px;
+    margin-top: 14px;
+    color: #555555;
+    font-size: 13px;
+    list-style: none;
+}
+
+/* ==================================================
+TELA DO PIX
+================================================== */
+
+.checkout-pix {
+    max-width: 560px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.passos-pix {
+    display: grid;
+    gap: 10px;
+    margin: 18px 0;
+    text-align: left;
+    list-style: none;
+    counter-reset: passo;
+}
+
+.passos-pix li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--creme);
+    border-radius: 12px;
+    font-size: 14px;
+    counter-increment: passo;
+}
+
+.passos-pix li::before {
+    content: counter(passo);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: var(--vermelho);
+    border-radius: 50%;
+    color: var(--branco);
+    font-weight: 800;
+}
+
+.checkout-pix .pix-qr {
+    width: 220px;
+    margin: 10px auto;
+    padding: 12px;
+    background: var(--branco);
+    border: 2px solid var(--borda);
+    border-radius: 18px;
+}
+
+.checkout-pix .pix-valor strong {
+    color: var(--vermelho);
+    font-size: 24px;
+}
+
+.checkout-pix .pix-tempo strong {
+    padding: 2px 10px;
+    background: #fff3cd;
+    border-radius: 8px;
+    font-family: "Courier New", monospace;
+}
+
+/* ==================================================
+RESPONSIVIDADE
+================================================== */
+
+@media (max-width: 1100px) {
+    .layout-checkout {
+        grid-template-columns: minmax(0, 1fr) 340px;
+        gap: 22px;
+    }
+}
+
+@media (max-width: 900px) {
+    .layout-checkout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .rp-lojas {
+        max-height: none;
+    }
+}
+
+@media (max-width: 760px) {
+    .layout-cartao {
+        grid-template-columns: 1fr;
+    }
+
+    .cartao-preview {
+        max-width: 320px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 520px) {
+    .bloco-checkout .opcoes-pagamento {
+        grid-template-columns: 1fr;
+    }
+
+    .bloco-checkout .opcao-pagamento {
+        grid-template-columns: auto 1fr;
+        justify-items: start;
+        align-items: center;
+        column-gap: 14px;
+        padding: 14px 44px 14px 14px;
+        text-align: left;
+    }
+
+    .icone-pagamento {
+        grid-row: span 2;
+        margin-bottom: 0;
+    }
+
+    .marcador-pagamento {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .tag-pagamento {
+        left: auto;
+        right: 44px;
+        transform: none;
+    }
+
+    .resumo-pedido {
+        padding: 18px;
+    }
+
+    .rp-total strong {
+        font-size: 22px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bloco-checkout .painel-pagamento {
+        animation: none;
+    }
+
+    .bloco-checkout .opcao-pagamento:hover,
+    .botao-confirmar:hover {
+        transform: none;
+    }
+}
